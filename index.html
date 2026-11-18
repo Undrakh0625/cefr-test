@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR Англи Хэлний Түвшин Тогтоох Шалгалт (A1–C2)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        /* Print styles for Unofficial Certificate */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-print-area, #certificate-print-area * {
+                visibility: visible;
+            }
+            #certificate-print-area {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 24px;
+                background: white !important;
+                box-shadow: none !important;
+                border: none !important;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm no-print">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <button onclick="navigateTo('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-base shadow-sm group-hover:bg-indigo-700 transition">
+                    CEFR
+                </div>
+                <div>
+                    <span class="block font-bold text-slate-900 text-sm sm:text-base leading-tight">Англи Хэлний Түвшин</span>
+                    <span class="block text-[11px] text-slate-500">A1 – C2 Placement Assessment</span>
+                </div>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="flex items-center gap-1.5 sm:gap-2.5">
+                <button id="nav-home" onclick="navigateTo('home')" class="px-3 py-2 rounded-xl text-sm font-medium text-indigo-600 bg-indigo-50 transition">
+                    <i class="fa-solid fa-house sm:mr-1.5"></i><span class="hidden sm:inline">Нүүр & Заавар</span>
+                </button>
+                <button id="nav-history" onclick="navigateTo('history')" class="px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-clock-rotate-left sm:mr-1.5"></i><span class="hidden sm:inline">Миний үр дүн</span>
+                </button>
+                <button id="nav-admin" onclick="navigateTo('admin')" class="px-3 py-2 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5 border border-slate-200">
+                    <i class="fa-solid fa-chalkboard-user text-indigo-600"></i>
+                    <span>Багш / Админ</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 id="modal-title" class="text-lg font-bold text-slate-900">Анхааруулга</h3>
+            </div>
+            <p id="modal-message" class="text-sm text-slate-600 mb-6 leading-relaxed"></p>
+            <div class="flex justify-end gap-3">
+                <button id="modal-cancel-btn" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Болих</button>
+                <button id="modal-confirm-btn" class="px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition">Зөвшөөрөх</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+        <!-- ========================================================= -->
+        <!-- VIEW 1: HOME & INSTRUCTIONS (НҮҮР & ЗААВАР)                -->
+        <!-- ========================================================= -->
+        <section id="view-home" class="space-y-8">
+            <!-- Academic & Legal Disclaimer Banner -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3 shadow-sm">
+                <i class="fa-solid fa-circle-info text-amber-600 mt-0.5 text-lg shrink-0"></i>
+                <div class="text-sm text-amber-950">
+                    <p class="font-bold">Анхааруулга:</p>
+                    <p>Энэ бол түвшин тогтоох шалгалт, <strong>IELTS/TOEFL-ийн оронд биш</strong>. Таны англи хэлний ерөнхий мэдлэгийг CEFR стандартын дагуу сургалтын дотоод хэрэгцээнд баримжаалан тодорхойлно.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Left Column: Info & Instructions (7 cols) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold">
+                                <i class="fa-solid fa-graduation-cap"></i> Олон улсын CEFR стандарт (A1 – C2)
+                            </span>
+                            <button type="button" onclick="testAudioSetup()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high"></i> Дуу шалгах
+                            </button>
+                        </div>
+
+                        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            Англи хэлний түвшингээ бодитоор тодорхойл
+                        </h1>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                            Энэхүү систем нь таны дүрэм, үгсийн сан, унших болон сонсох чадварыг 60 асуулттай сангаас шүүн шалгаж, CEFR-ийн 6 түвшний аль шатанд байгааг тодорхойлно.
+                        </p>
+
+                        <!-- 3 Test Sections -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-2.5">
+                                    <i class="fa-solid fa-spell-check"></i>
+                                </div>
+                                <h3 class="font-bold text-slate-900 text-sm">1. Дүрэм ба Үгсийн сан</h3>
+                                <p class="text-xs text-slate-500 mt-1">Нэг сонголт, хоосон зай нөхөх, өгүүлбэр залгах</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2.5">
+                                    <i class="fa-solid fa-book-open"></i>
+                                </div>
+                                <h3 class="font-bold text-slate-900 text-sm">2. Унших чадвар</h3>
+                                <p class="text-xs text-slate-500 mt-1">Эшлэл уншиж гол санааг ойлгох асуултууд</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-2.5">
+                                    <i class="fa-solid fa-headphones"></i>
+                                </div>
+                                <h3 class="font-bold text-slate-900 text-sm">3. Сонсох чадвар</h3>
+                                <p class="text-xs text-slate-500 mt-1">1.0x болон 0.8x хурдаар аудио сонсох даалгавар</p>
+                            </div>
+                        </div>
+
+                        <!-- CEFR Scale Reference -->
+                        <div class="border-t border-slate-100 pt-5">
+                            <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group text-indigo-600"></i> CEFR Түвшний шкал ба Босго оноо (<span id="home-threshold-label">70%</span>+)
+                            </h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-slate-800">A1 (Анхан)</span>
+                                    <p class="text-slate-500 mt-0.5">Өдөр тутмын энгийн үг хэллэг</p>
+                                </div>
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-sky-700">A2 (Суурь)</span>
+                                    <p class="text-slate-500 mt-0.5">Энгийн харилцан яриа, ойлголт</p>
+                                </div>
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-teal-700">B1 (Дунд)</span>
+                                    <p class="text-slate-500 mt-0.5">Бие даан ойлголцох чадвар</p>
+                                </div>
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-indigo-700">B2 (Ахисан дунд)</span>
+                                    <p class="text-slate-500 mt-0.5">Чөлөөтэй ярилцах, эх ойлгох</p>
+                                </div>
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-purple-700">C1 (Гүнзгий)</span>
+                                    <p class="text-slate-500 mt-0.5">Академик болон ажлын өндөр түвшин</p>
+                                </div>
+                                <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                                    <span class="font-extrabold text-rose-700">C2 (Төгс)</span>
+                                    <p class="text-slate-500 mt-0.5">Унаган хэлтэй дүйцэхүйц чадвар</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rules summary -->
+                        <div class="bg-slate-50 rounded-2xl p-4 text-xs sm:text-sm text-slate-600 space-y-1.5 border border-slate-100">
+                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check text-indigo-600 mr-1.5"></i>Шалгалтын санамж:</p>
+                            <ul class="list-disc list-inside space-y-1 pl-1">
+                                <li>Заавар Монголоор, шалгалтын асуултууд <strong>Англи хэлээр</strong> байна.</li>
+                                <li>Асуултын дараалал болон хариултын хувилбарууд оюутан бүрт санамсаргүй холигдоно.</li>
+                                <li>Тухайн түвшний асуултын <strong>70%</strong>-иас дээш зөв хариулбал тухайн түвшинг давсанд тооцно.</li>
+                                <li>Шалгалт дуусмагц дүнгийн хуудас таны имэйл болон багшийн системд автоматаар илгээгдэнэ.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Student Registration & Start Form (5 cols) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg space-y-5">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Шалгуулагчийн бүртгэл</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-1">Дүнгийн хуудас имэйлээр хүлээн авах тул мэдээллээ үнэн зөв бөглөнө үү.</p>
+                        </div>
+
+                        <!-- Mode Selection: Fixed vs Adaptive -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Шалгалтын загвар:</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="testMode" value="fixed" checked class="peer sr-only">
+                                    <div class="p-3 rounded-2xl border-2 border-slate-200 peer-checked:border-indigo-600 peer-checked:bg-indigo-50/50 transition h-full">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="font-bold text-sm text-slate-900">Тогтмол</span>
+                                            <i class="fa-solid fa-list-ol text-indigo-600"></i>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 leading-snug">A1–C2 түвшин бүрээс 5 асуулт, нийт 30 асуулт (30 мин)</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="testMode" value="adaptive" class="peer sr-only">
+                                    <div class="p-3 rounded-2xl border-2 border-slate-200 peer-checked:border-indigo-600 peer-checked:bg-indigo-50/50 transition h-full">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="font-bold text-sm text-slate-900">Adaptive</span>
+                                            <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 leading-snug">Хариултаас хамаарч хүндрэх/хөнгөрөх 24 асуулт (30 мин)</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Student Details Fields -->
+                        <div class="space-y-3">
+                            <div>
+                                <label for="user-name" class="block text-xs font-semibold text-slate-700 mb-1">Овог, Нэр <span class="text-rose-500">*</span></label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-user absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                    <input type="text" id="user-name" required placeholder="Жишээ: Бат-Эрдэнэ Болд" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="user-class" class="block text-xs font-semibold text-slate-700 mb-1">Анги / Бүлэг <span class="text-rose-500">*</span></label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-users-rectangle absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                    <input type="text" id="user-class" required placeholder="Жишээ: 11А анги эсвэл Оюутан-201" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="user-email" class="block text-xs font-semibold text-slate-700 mb-1">Имэйл хаяг <span class="text-rose-500">*</span> <span class="text-slate-400 font-normal">(Дүнгийн хуудас илгээнэ)</span></label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-envelope absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                    <input type="email" id="user-email" required placeholder="student@example.com" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy & IP/Device Consent -->
+                        <div class="flex items-start gap-2.5 pt-1 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <input type="checkbox" id="privacy-agree" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                            <label for="privacy-agree" class="text-xs text-slate-600 leading-relaxed cursor-pointer">
+                                Миний мэдээлэл болон IP/төхөөрөмжийн мэдээллийг зөвхөн сургалтын үнэлгээнд ашиглахыг зөвшөөрч байна.
+                            </label>
+                        </div>
+
+                        <!-- Start Button -->
+                        <button onclick="startExam()" class="w-full py-3.5 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-base shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
+                            <span>Шалгалт эхлүүлэх</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- VIEW 2: EXAM INTERFACE (ШАЛГАЛТЫН ХЭСЭГ)                  -->
+        <!-- ========================================================= -->
+        <section id="view-exam" class="hidden space-y-6">
+            <!-- Exam Header Bar -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <span id="exam-mode-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">
+                            Тогтмол шалгалт
+                        </span>
+                        <span id="exam-section-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+                            Grammar & Vocabulary
+                        </span>
+                    </div>
+
+                    <!-- Countdown Timer -->
+                    <div id="timer-box" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-mono text-sm font-bold shadow-sm">
+                        <i class="fa-regular fa-clock text-indigo-400"></i>
+                        <span id="exam-timer">30:00</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600">
+                        <span id="progress-text">Асуулт 1 / 30</span>
+                        <span id="progress-percent">0 хариулсан</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Question Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Question Content -->
+                <div id="question-container-col" class="lg:col-span-9 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <span id="q-type-label" class="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                            Multiple Choice
+                        </span>
+                        <span id="q-adaptive-indicator" class="hidden text-xs font-medium text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-bolt text-amber-500 mr-1"></i>Adaptive алгоритм идэвхтэй
+                        </span>
+                    </div>
+
+                    <!-- Reading Passage Box -->
+                    <div id="reading-passage-box" class="hidden bg-slate-50 border-l-4 border-emerald-500 rounded-r-2xl p-4 sm:p-5 space-y-2">
+                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 uppercase tracking-wide">
+                            <i class="fa-solid fa-book-open"></i> Reading Passage
+                        </div>
+                        <p id="reading-passage-text" class="text-sm sm:text-base text-slate-800 leading-relaxed font-normal"></p>
+                    </div>
+
+                    <!-- Listening Audio Player Box (1.0x & 0.8x speed + MP3 support) -->
+                    <div id="listening-audio-box" class="hidden bg-purple-50 border border-purple-200 rounded-2xl p-4 sm:p-5 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <button id="play-audio-btn" onclick="playCurrentAudio(1.0)" class="w-12 h-12 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center shadow-md transition shrink-0" title="Хэвийн хурдаар сонсох (1.0x)">
+                                    <i id="play-audio-icon" class="fa-solid fa-play text-lg ml-0.5"></i>
+                                </button>
+                                <div>
+                                    <p class="text-sm font-bold text-purple-950">Listening Audio Track</p>
+                                    <p id="audio-status-text" class="text-xs text-purple-700">Аудиог дээд тал нь 3 удаа сонсох эрхтэй.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="playCurrentAudio(0.8)" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-bold transition">
+                                    <i class="fa-solid fa-gauge-simple mr-1"></i> Удаан (0.8x)
+                                </button>
+                                <span id="audio-plays-left" class="px-2.5 py-1.5 rounded-xl bg-white text-purple-900 text-xs font-bold border border-purple-200">
+                                    Үлдсэн: 3/3
+                                </span>
+                            </div>
+                        </div>
+                        <audio id="html5-audio-player" class="hidden w-full mt-2" controls></audio>
+                    </div>
+
+                    <!-- Question Prompt (English) -->
+                    <div>
+                        <h2 id="question-prompt" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+                            Loading question...
+                        </h2>
+                    </div>
+
+                    <!-- Answer Options List -->
+                    <div id="options-container" class="space-y-3">
+                        <!-- Dynamically populated options -->
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                        <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Өмнөх</span>
+                        </button>
+
+                        <div class="flex items-center gap-3 ml-auto">
+                            <button id="next-btn" onclick="nextQuestion()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition flex items-center gap-2">
+                                <span>Дараах</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button id="submit-exam-btn" onclick="confirmFinishExam()" class="hidden px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-200 transition flex items-center gap-2">
+                                <i class="fa-solid fa-check-double"></i>
+                                <span>Шалгалт дуусгах</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Palette Sidebar (Fixed Mode) -->
+                <div id="question-palette-col" class="lg:col-span-3 bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center justify-between">
+                        <span>Асуултын жагсаалт</span>
+                        <span id="answered-count-badge" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">0/30</span>
+                    </h3>
+                    <div id="question-palette-grid" class="grid grid-cols-6 sm:grid-cols-10 lg:grid-cols-5 gap-1.5">
+                        <!-- Palette numbers injected via JS -->
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span> Одоогийн асуулт
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-400 inline-block"></span> Хариулсан
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span> Хариулаагүй
+                        </div>
+                    </div>
+                    <button onclick="confirmFinishExam()" class="w-full py-2.5 px-4 rounded-xl border border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-semibold text-xs transition">
+                        Шалгалтыг дуусгах
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- VIEW 3: RESULTS & CERTIFICATE (ҮР ДҮН & ГЭРЧИЛГЭЭ)         -->
+        <!-- ========================================================= -->
+        <section id="view-results" class="hidden space-y-8">
+            <!-- Google Sheets & Auto-Email Delivery Status Banner -->
+            <div id="sync-status-banner" class="rounded-2xl p-4 border flex items-center justify-between gap-4 no-print bg-indigo-50 border-indigo-200 text-indigo-900">
+                <div class="flex items-center gap-3">
+                    <i id="sync-status-icon" class="fa-solid fa-spinner fa-spin text-indigo-600 text-lg"></i>
+                    <div>
+                        <p id="sync-status-title" class="text-sm font-bold">Үр дүнг багшийн систем болон таны имэйл рүү илгээж байна...</p>
+                        <p id="sync-status-desc" class="text-xs opacity-80">Түр хүлээнэ үү.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Result Summary Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm no-print">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-100 pb-6">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold mb-2">
+                            <i class="fa-solid fa-circle-check"></i> Шалгалт амжилттай дууслаа
+                        </span>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="res-user-greeting">Таны шалгалтын үр дүн</h1>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1" id="res-meta-info">Огноо • Анги • Зарцуулсан хугацаа</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="printCertificate()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Гэрчилгээ татах / Хэвлэх</span>
+                        </button>
+                        <button onclick="navigateTo('home')" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-sm transition">
+                            Дахин өгөх
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Score Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 items-center">
+                    <!-- Determined CEFR Level Badge -->
+                    <div class="md:col-span-4 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-2xl p-6 text-white text-center shadow-md">
+                        <p class="text-xs uppercase tracking-widest text-indigo-200 font-semibold">Тогтоогдсон түвшин</p>
+                        <div id="res-cefr-level" class="text-5xl sm:text-6xl font-black my-2 tracking-tight">B1</div>
+                        <p id="res-cefr-title" class="text-sm font-bold text-indigo-100">Intermediate (Дунд түвшин)</p>
+                        <div class="mt-4 pt-3 border-t border-indigo-500/40 grid grid-cols-3 gap-1 text-xs">
+                            <div>
+                                <span class="block text-indigo-200 text-[11px]">Зөв</span>
+                                <span id="res-total-score" class="font-bold text-sm">20/30</span>
+                            </div>
+                            <div>
+                                <span class="block text-indigo-200 text-[11px]">Хувь</span>
+                                <span id="res-total-percent" class="font-bold text-sm">67%</span>
+                            </div>
+                            <div>
+                                <span class="block text-indigo-200 text-[11px]">Хугацаа</span>
+                                <span id="res-duration-badge" class="font-bold text-sm">12м 10с</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Breakdown & Level Thresholds -->
+                    <div class="md:col-span-8 space-y-5">
+                        <h3 class="text-base font-bold text-slate-900">Хэсэг тус бүрийн гүйцэтгэл</h3>
+                        <div class="space-y-4">
+                            <!-- Grammar & Vocab -->
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-1">
+                                    <span class="text-slate-700"><i class="fa-solid fa-spell-check text-blue-600 mr-2"></i>Дүрэм ба Үгсийн сан</span>
+                                    <span id="res-sec-grammar-text" class="text-slate-900">0/0 (0%)</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div id="res-sec-grammar-bar" class="h-full bg-blue-600 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <!-- Reading -->
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-1">
+                                    <span class="text-slate-700"><i class="fa-solid fa-book-open text-emerald-600 mr-2"></i>Унших чадвар</span>
+                                    <span id="res-sec-reading-text" class="text-slate-900">0/0 (0%)</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div id="res-sec-reading-bar" class="h-full bg-emerald-600 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <!-- Listening -->
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold mb-1">
+                                    <span class="text-slate-700"><i class="fa-solid fa-headphones text-purple-600 mr-2"></i>Сонсох чадвар</span>
+                                    <span id="res-sec-listening-text" class="text-slate-900">0/0 (0%)</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div id="res-sec-listening-bar" class="h-full bg-purple-600 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Level-by-level mastery pills -->
+                        <div class="pt-2">
+                            <p class="text-xs font-semibold text-slate-500 mb-2">Түвшин бүрийн гүйцэтгэл (<span id="res-threshold-label">70%</span> босго):</p>
+                            <div id="res-level-breakdown" class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalized Study Recommendations -->
+                <div class="mt-8 bg-indigo-50/70 border border-indigo-100 rounded-2xl p-5 sm:p-6 space-y-2">
+                    <h3 class="text-base font-bold text-indigo-950 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Танд зориулсан суралцах зөвлөмж
+                    </h3>
+                    <p id="res-recommendation-text" class="text-sm text-slate-700 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Printable Unofficial Certificate Preview -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between no-print">
+                    <h2 class="text-lg font-bold text-slate-900">Гэрчилгээний урьдчилсан харагдац</h2>
+                    <button onclick="printCertificate()" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800">
+                        <i class="fa-solid fa-print mr-1"></i> PDF болгож хадгалах
+                    </button>
+                </div>
+
+                <div id="certificate-print-area" class="bg-white border-8 border-double border-indigo-900/20 rounded-2xl p-6 sm:p-12 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-bl-full -z-0"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-indigo-50 rounded-tr-full -z-0"></div>
+
+                    <div class="relative z-10 text-center max-w-2xl mx-auto space-y-5">
+                        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 text-white font-black text-xl shadow-sm">
+                            CEFR
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">English Language Placement Assessment</p>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">ТҮВШИН ТОГТООХ ГЭРЧИЛГЭЭ</h2>
+                            <p class="text-xs font-bold text-amber-800 bg-amber-50 inline-block px-3.5 py-1 rounded-full border border-amber-200 mt-1.5">
+                                Албан ёсны бус дотоод үнэлгээний гэрчилгээ (IELTS/TOEFL-ийн оронд тооцохгүй)
+                            </p>
+                        </div>
+
+                        <p class="text-sm text-slate-600">Энэхүү гэрчилгээг доорх шалгуулагчид олгов:</p>
+                        <div>
+                            <div id="cert-user-name" class="text-2xl sm:text-3xl font-bold text-slate-900 border-b-2 border-slate-200 pb-2 inline-block px-8">
+                                Оюутны Нэр
+                            </div>
+                            <p id="cert-user-class" class="text-xs font-semibold text-slate-500 mt-1.5">Анги / Бүлэг</p>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Англи хэлний дүрэм, үгсийн сан, унших болон сонсох чадварын түвшин тогтоох шалгалтад оролцож Европын хэлний нэгдсэн стандартын (CEFR) дагуу дараах түвшинг хангасан болохыг тодорхойлов:
+                        </p>
+
+                        <div class="py-2">
+                            <span id="cert-level-badge" class="inline-block px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-3xl tracking-wide shadow-sm">
+                                B1 — Intermediate
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <div>Дүрэм/Үгс: <strong id="cert-sec-grammar">0%</strong></div>
+                            <div>Унших: <strong id="cert-sec-reading">0%</strong></div>
+                            <div>Сонсох: <strong id="cert-sec-listening">0%</strong></div>
+                            <div>Хугацаа: <strong id="cert-duration">0 мин</strong></div>
+                        </div>
+
+                        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 border-t border-slate-200 gap-2">
+                            <div>Олгосон огноо: <strong id="cert-date">2026-11-18</strong></div>
+                            <div>Шалгалтын ID: <strong id="cert-id">#CEFR-0000</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Review Section -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4 no-print">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-slate-900">Хариултын дэлгэрэнгүй тайлан</h3>
+                    <button onclick="toggleAnswerReview()" id="toggle-review-btn" class="text-sm font-semibold text-indigo-600 hover:underline">
+                        Харах <i class="fa-solid fa-chevron-down ml-1"></i>
+                    </button>
+                </div>
+                <div id="answer-review-list" class="hidden space-y-3 pt-2">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- VIEW 4: USER HISTORY (МИНИЙ ҮР ДҮН)                       -->
+        <!-- ========================================================= -->
+        <section id="view-history" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900">Миний өгсөн шалгалтууд</h1>
+                        <p class="text-sm text-slate-500">Таны энэ төхөөрөмж дээр хадгалагдсан шалгалтын түүхүүд</p>
+                    </div>
+                    <button onclick="navigateTo('home')" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+                        + Шинэ шалгалт өгөх
+                    </button>
+                </div>
+
+                <div id="user-history-list" class="space-y-3">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- VIEW 5: TEACHER / ADMIN DASHBOARD (БАГШ / АДМИН ХЭСЭГ)     -->
+        <!-- ========================================================= -->
+        <section id="view-admin" class="hidden space-y-6">
+            <!-- Admin Login Gate -->
+            <div id="admin-login-box" class="max-w-md mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+                <div class="text-center space-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-slate-900">Багш / Админ удирдлагын хэсэг</h2>
+                    <p class="text-xs text-slate-500">Google Sheets холболт, асуултын сан болон шалгалтын статистик удирдахын тулд нууц үгээ оруулна уу.</p>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Багшийн нууц үг</label>
+                        <input type="password" id="admin-password-input" placeholder="Нууц үг оруулах..." onkeydown="if(event.key==='Enter') loginAdmin()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <button onclick="loginAdmin()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition">
+                        Нэвтрэх
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Panel Content -->
+            <div id="admin-dashboard-content" class="hidden space-y-6">
+                <!-- Admin Header & Navigation Tabs -->
+                <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900">Багшийн хяналтын самбар</h1>
+                            <p class="text-xs sm:text-sm text-slate-500">Google Sheets холболт, 60 асуултын сан болон үр дүнгийн тайлан</p>
+                        </div>
+                        <button onclick="logoutAdmin()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-right-from-bracket"></i> Гарах
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
+                        <button onclick="switchAdminTab('sheets')" id="admin-tab-sheets" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 text-white transition">
+                            <i class="fa-solid fa-table mr-1.5"></i>1. Google Sheets & Имэйл тохиргоо
+                        </button>
+                        <button onclick="switchAdminTab('questions')" id="admin-tab-questions" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            <i class="fa-solid fa-database mr-1.5"></i>2. Асуултын сан (<span id="admin-q-count">60</span>)
+                        </button>
+                        <button onclick="switchAdminTab('results')" id="admin-tab-results" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            <i class="fa-solid fa-file-excel mr-1.5"></i>3. Орон нутгийн үр дүн & CSV
+                        </button>
+                        <button onclick="switchAdminTab('stats')" id="admin-tab-stats" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            <i class="fa-solid fa-chart-column mr-1.5"></i>4. Статистик
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- ADMIN TAB 1: GOOGLE SHEETS & AUTO-EMAIL SETUP GUIDE       -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-sheets" class="space-y-6">
+                    <!-- Connection Status & Test Box -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-900">Google Sheets & Автомат Имэйл Холболт</h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Оюутны нэр, анги, дүн, зарцуулсан хугацаа, IP хаягийг Google Sheet рүү бичиж, оюутанд имэйл илгээнэ.</p>
+                            </div>
+                            <span id="sheets-config-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                                URL тохируулаагүй байна
+                            </span>
+                        </div>
+
+                        <!-- Important Warning about GitHub Pages -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-950 space-y-1.5">
+                            <p class="font-bold"><i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i>GitHub Pages дээр байршуулахаас өмнө анхаар:</p>
+                            <p>Доорх талбарт URL хадгалах нь зөвхөн <strong>таны энэ хөтөч дээр</strong> туршихад зориулагдсан. Бүх оюутны гар утаснаас үр дүн таны Google Sheet рүү очдог болгохын тулд <code>index.html</code> файлын <code>&lt;script&gt;</code> хэсгийн хамгийн эхэнд байрлах <code>const DEFAULT_GOOGLE_SHEETS_URL = '...';</code> мөрөнд Web App URL-ээ хуулж бичээд GitHub руу upload хийнэ үү.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                            <div class="md:col-span-8">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Google Apps Script Web App URL (Турших / Түр тохируулах)</label>
+                                <input type="url" id="admin-sheets-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div class="md:col-span-4 flex gap-2">
+                                <button onclick="saveAdminSheetsUrl()" class="flex-1 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition">
+                                    Хадгалах
+                                </button>
+                                <button onclick="testSheetsConnection()" class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition">
+                                    <i class="fa-solid fa-paper-plane mr-1"></i> Холболт шалгах
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Threshold Setting -->
+                        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">Түвшин ахих босго оноо (%)</p>
+                                <p class="text-xs text-slate-500">Тухайн түвшний асуултын хэдэн хувьд зөв хариулбал давсанд тооцох вэ? (Анхдагч: 70%)</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="admin-threshold-input" min="50" max="95" value="70" class="w-20 px-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-center">
+                                <button onclick="saveThresholdSetting()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition">
+                                    Шинэчлэх
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step-by-Step Deployment Guide & Apps Script Code -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <h3 class="text-base font-bold text-slate-900">Google Apps Script суулгах 4 алхамт заавар</h3>
+                            <button onclick="copyAppsScriptCode()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition flex items-center gap-2 shadow-sm">
+                                <i class="fa-regular fa-copy"></i> Apps Script код хуулах
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-slate-700 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <li>Google Drive дээрээ шинэ <strong>Google Sheet</strong> үүсгэнэ.</li>
+                            <li>Дээд цэснээс <strong>Extensions → Apps Script</strong> руу орж, доторх кодыг устгаад доорх кодыг бүхлээр нь хуулж тавина.</li>
+                            <li><strong>Deploy → New deployment</strong> дарж, төрлийг <strong>Web app</strong> болгоно. <em>Execute as: Me</em>, харин <strong>Who has access: Anyone</strong> болгож сонгоно.</li>
+                            <li>Зөвшөөрөл асуух цонхонд <strong>Advanced → Go to ... (unsafe) → Allow</strong> дарж имэйл илгээх эрхийг зөвшөөрнө. Гарч ирсэн <strong>Web App URL</strong>-ийг хуулж <code>index.html</code> доторх <code>DEFAULT_GOOGLE_SHEETS_URL</code>-д оруулна.</li>
+                        </ol>
+
+                        <div class="relative">
+                            <pre id="apps-script-code-block" class="bg-slate-900 text-slate-100 p-4 rounded-2xl text-xs overflow-x-auto leading-relaxed font-mono max-h-96">function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+
+    // 1. Хэрэв хүснэгт хоосон бол толгой гарчиг (Header) автоматаар үүсгэнэ
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Огноо",
+        "Овог нэр",
+        "Анги/Бүлэг",
+        "Имэйл",
+        "Горим",
+        "CEFR Түвшин",
+        "Нийт оноо (%)",
+        "Зөв / Нийт",
+        "Дүрэм ба Үгсийн сан",
+        "Унших",
+        "Сонсох",
+        "Зарцуулсан хугацаа",
+        "IP хаяг",
+        "Төхөөрөмж / Хөтөч"
+      ]);
+      sheet.getRange(1, 1, 1, 14).setFontWeight("bold").setBackground("#f3f4f6");
+    }
+
+    // 2. Шалгалтын үр дүнг мөр болгон нэмэх
+    sheet.appendRow([
+      new Date().toLocaleString("mn-MN", { timeZone: "Asia/Ulaanbaatar" }),
+      data.name || "",
+      data.classGroup || "",
+      data.email || "",
+      data.mode || "",
+      data.level || "",
+      data.totalPercent + "%",
+      data.correctCount + "/" + data.totalQuestions,
+      data.grammarScore || "",
+      data.readingScore || "",
+      data.listeningScore || "",
+      data.duration || "",
+      data.ipAddress || "Тодорхойгүй",
+      data.deviceInfo || ""
+    ]);
+
+    // 3. Оюутны имэйл рүү дүнгийн хуудас автоматаар илгээх
+    if (data.email && data.email.indexOf("@") > -1) {
+      sendResultEmail(data);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function sendResultEmail(data) {
+  var subject = "Англи хэлний түвшин тогтоох шалгалтын дүн: " + data.level + " (" + data.name + ")";
+  
+  var htmlBody = 
+    '&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;"&gt;' +
+      '&lt;div style="background-color: #1e3a8a; color: #ffffff; padding: 24px; text-align: center;"&gt;' +
+        '&lt;h2 style="margin: 0; font-size: 20px;"&gt;Англи Хэлний Түвшин Тогтоох Шалгалт&lt;/h2&gt;' +
+        '&lt;p style="margin: 6px 0 0; font-size: 13px; opacity: 0.85;"&gt;Албан ёсны бус дотоод үнэлгээний дүнгийн хуудас&lt;/p&gt;' +
+      '&lt;/div&gt;' +
+      '&lt;div style="padding: 24px; color: #1f2937;"&gt;' +
+        '&lt;p&gt;Сайн байна уу, &lt;strong&gt;' + data.name + '&lt;/strong&gt; (' + data.classGroup + '),&lt;/p&gt;' +
+        '&lt;p&gt;Таны өгсөн англи хэлний түвшин тогтоох шалгалтын үр дүн:&lt;/p&gt;' +
+        '&lt;div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; text-align: center; margin: 20px 0;"&gt;' +
+          '&lt;div style="font-size: 13px; color: #3b82f6; font-weight: bold;"&gt;ТОГТООГДСОН CEFR ТҮВШИН&lt;/div&gt;' +
+          '&lt;div style="font-size: 36px; font-weight: bold; color: #1e40af; margin: 4px 0;"&gt;' + data.level + '&lt;/div&gt;' +
+          '&lt;div style="font-size: 14px; color: #374151;"&gt;Нийт гүйцэтгэл: &lt;strong&gt;' + data.totalPercent + '%&lt;/strong&gt; (' + data.correctCount + '/' + data.totalQuestions + ')&lt;/div&gt;' +
+        '&lt;/div&gt;' +
+        '&lt;table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;"&gt;' +
+          '&lt;tr style="border-bottom: 1px solid #e5e7eb;"&gt;&lt;td style="padding: 8px 0; color: #6b7280;"&gt;Дүрэм ба үгсийн сан:&lt;/td&gt;&lt;td style="padding: 8px 0; text-align: right; font-weight: bold;"&gt;' + data.grammarScore + '&lt;/td&gt;&lt;/tr&gt;' +
+          '&lt;tr style="border-bottom: 1px solid #e5e7eb;"&gt;&lt;td style="padding: 8px 0; color: #6b7280;"&gt;Унших чадвар:&lt;/td&gt;&lt;td style="padding: 8px 0; text-align: right; font-weight: bold;"&gt;' + data.readingScore + '&lt;/td&gt;&lt;/tr&gt;' +
+          '&lt;tr style="border-bottom: 1px solid #e5e7eb;"&gt;&lt;td style="padding: 8px 0; color: #6b7280;"&gt;Сонсох чадвар:&lt;/td&gt;&lt;td style="padding: 8px 0; text-align: right; font-weight: bold;"&gt;' + data.listeningScore + '&lt;/td&gt;&lt;/tr&gt;' +
+          '&lt;tr&gt;&lt;td style="padding: 8px 0; color: #6b7280;"&gt;Зарцуулсан хугацаа:&lt;/td&gt;&lt;td style="padding: 8px 0; text-align: right; font-weight: bold;"&gt;' + data.duration + '&lt;/td&gt;&lt;/tr&gt;' +
+        '&lt;/table&gt;' +
+        '&lt;p style="font-size: 12px; color: #6b7280; background-color: #f9fafb; padding: 12px; border-radius: 6px; margin: 0;"&gt;' +
+          '&lt;strong&gt;Санамж:&lt;/strong&gt; Энэ нь сургалтын дотоод хэрэгцээнд зориулсан түвшин тогтоох шалгалт бөгөөд олон улсын IELTS/TOEFL-ийн албан ёсны гэрчилгээг орлохгүй.' +
+        '&lt;/p&gt;' +
+      '&lt;/div&gt;' +
+    '&lt;/div&gt;';
+
+  MailApp.sendEmail({
+    to: data.email,
+    subject: subject,
+    htmlBody: htmlBody
+  });
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- ADMIN TAB 2: QUESTION BANK MANAGEMENT                     -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-questions" class="hidden space-y-6">
+                    <!-- Add / Edit Question Form -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <h2 id="q-form-title" class="text-base font-bold text-slate-900">
+                                <i class="fa-solid fa-plus-circle text-indigo-600 mr-1.5"></i>Шинэ асуулт нэмэх
+                            </h2>
+                            <button id="cancel-edit-btn" onclick="resetQuestionForm()" class="hidden text-xs font-semibold text-slate-500 hover:text-slate-800">
+                                Засвар цуцлах
+                            </button>
+                        </div>
+
+                        <form id="question-form" onsubmit="saveQuestionForm(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                            <input type="hidden" id="edit-q-id" value="">
+
+                            <div class="md:col-span-3">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">CEFR Түвшин *</label>
+                                <select id="q-level" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    <option value="A1">A1 (Анхан)</option>
+                                    <option value="A2">A2 (Суурь)</option>
+                                    <option value="B1" selected>B1 (Дунд)</option>
+                                    <option value="B2">B2 (Ахисан дунд)</option>
+                                    <option value="C1">C1 (Гүнзгий)</option>
+                                    <option value="C2">C2 (Төгс)</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-4">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Хэсэг *</label>
+                                <select id="q-section" onchange="toggleAdminExtraFields()" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    <option value="grammar">Grammar & Vocabulary (Дүрэм/Үгс)</option>
+                                    <option value="reading">Reading (Унших)</option>
+                                    <option value="listening">Listening (Сонсох)</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-5">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Асуултын төрөл *</label>
+                                <select id="q-type" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    <option value="Multiple Choice">Нэг хариулттай сонголт (Multiple Choice)</option>
+                                    <option value="Fill in the Blank">Хоосон зай нөхөх (Fill in the Blank)</option>
+                                    <option value="Sentence Completion">Өгүүлбэр залгах (Sentence Completion)</option>
+                                    <option value="Reading Comprehension">Эшлэлийн дараах асуулт (Reading)</option>
+                                    <option value="Listening Comprehension">Сонсох аудиотой асуулт (Listening)</option>
+                                </select>
+                            </div>
+
+                            <!-- Reading Passage -->
+                            <div id="admin-passage-field" class="md:col-span-12 hidden">
+                                <label class="block text-xs font-semibold text-emerald-700 mb-1">Унших эшлэл / Эх (Англиар) *</label>
+                                <textarea id="q-passage" rows="3" placeholder="Унших эхийг энд оруулна уу..." class="w-full px-3.5 py-2.5 rounded-xl border border-emerald-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                            </div>
+
+                            <!-- Listening Audio Script / URL -->
+                            <div id="admin-audio-field" class="md:col-span-12 hidden grid grid-cols-1 md:grid-cols-2 gap-4 bg-purple-50/60 p-3.5 rounded-2xl border border-purple-200">
+                                <div>
+                                    <label class="block text-xs font-semibold text-purple-800 mb-1">Аудио текст (Автомат дуу хоолойгоор уншина) *</label>
+                                    <textarea id="q-audio-script" rows="2" placeholder="Жишээ: Excuse me, what time does the train leave?" class="w-full px-3 py-2 rounded-xl border border-purple-300 text-sm focus:ring-2 focus:ring-purple-500 outline-none"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-purple-800 mb-1">Эсвэл MP3 Аудио URL (Сонголтоор)</label>
+                                    <input type="url" id="q-audio-url" placeholder="https://example.com/audio.mp3" class="w-full px-3 py-2 rounded-xl border border-purple-300 text-sm focus:ring-2 focus:ring-purple-500 outline-none">
+                                    <p class="text-[11px] text-purple-600 mt-1">URL оруулаагүй бол систем дээрх текстийг англи дуудлагаар уншина.</p>
+                                </div>
+                            </div>
+
+                            <div class="md:col-span-12">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Асуултын өгүүлбэр (Англиар) *</label>
+                                <input type="text" id="q-prompt" required placeholder="Жишээ: She _____ to Ulaanbaatar twice this year." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+
+                            <div class="md:col-span-6">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Хувилбар A *</label>
+                                <input type="text" id="q-opt-0" required placeholder="Хариулт 1" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-indigo-500">
+                            </div>
+                            <div class="md:col-span-6">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Хувилбар B *</label>
+                                <input type="text" id="q-opt-1" required placeholder="Хариулт 2" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-indigo-500">
+                            </div>
+                            <div class="md:col-span-6">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Хувилбар C *</label>
+                                <input type="text" id="q-opt-2" required placeholder="Хариулт 3" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-indigo-500">
+                            </div>
+                            <div class="md:col-span-6">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Хувилбар D *</label>
+                                <input type="text" id="q-opt-3" required placeholder="Хариулт 4" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-indigo-500">
+                            </div>
+
+                            <div class="md:col-span-6">
+                                <label class="block text-xs font-semibold text-emerald-700 mb-1">Зөв хариулт аль нь вэ? *</label>
+                                <select id="q-correct" required class="w-full px-3 py-2.5 rounded-xl border border-emerald-300 bg-emerald-50/40 text-sm font-semibold text-emerald-900 outline-none">
+                                    <option value="0">Хувилбар A</option>
+                                    <option value="1">Хувилбар B</option>
+                                    <option value="2">Хувилбар C</option>
+                                    <option value="3">Хувилбар D</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-6 flex items-end justify-end gap-2">
+                                <button type="submit" class="w-full md:w-auto px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition">
+                                    <i class="fa-solid fa-floppy-disk mr-1.5"></i>Асуулт хадгалах
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Question Bank Filter & List -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <h3 class="text-base font-bold text-slate-900">Бүртгэлтэй асуултууд</h3>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <select id="admin-filter-level" onchange="renderAdminQuestions()" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold bg-white">
+                                    <option value="ALL">Бүх түвшин (A1–C2)</option>
+                                    <option value="A1">A1 (10)</option>
+                                    <option value="A2">A2 (10)</option>
+                                    <option value="B1">B1 (10)</option>
+                                    <option value="B2">B2 (10)</option>
+                                    <option value="C1">C1 (10)</option>
+                                    <option value="C2">C2 (10)</option>
+                                </select>
+                                <select id="admin-filter-section" onchange="renderAdminQuestions()" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold bg-white">
+                                    <option value="ALL">Бүх хэсэг</option>
+                                    <option value="grammar">Grammar & Vocab</option>
+                                    <option value="reading">Reading</option>
+                                    <option value="listening">Listening</option>
+                                </select>
+                                <button onclick="resetDefaultQuestions()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-600 hover:bg-slate-100" title="Анхны 60 асуулт сэргээх">
+                                    <i class="fa-solid fa-rotate-left"></i> 60 асуулт сэргээх
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-xs font-bold text-slate-500 uppercase">
+                                        <th class="py-3 px-3">Түвшин</th>
+                                        <th class="py-3 px-3">Хэсэг / Төрөл</th>
+                                        <th class="py-3 px-3">Асуулт</th>
+                                        <th class="py-3 px-3">Зөв хариулт</th>
+                                        <th class="py-3 px-3 text-right">Үйлдэл</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-questions-tbody" class="divide-y divide-slate-100 text-sm">
+                                    <!-- Injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- ADMIN TAB 3: LOCAL RESULTS & CSV EXPORT                   -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-results" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900">Энэ төхөөрөмж дээр хадгалагдсан шалгалтын үр дүн</h3>
+                                <p class="text-xs text-slate-500">Бүх оюутны үр дүнг Google Sheets рүү илгээсэн хүснэгтээс харах боломжтой.</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="exportResultsToCSV()" class="py-2 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-file-excel"></i> Excel (CSV) татах
+                                </button>
+                                <button onclick="clearAllResults()" class="py-2 px-3 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition">
+                                    Түүх цэвэрлэх
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-xs font-bold text-slate-500 uppercase">
+                                        <th class="py-3 px-3">Огноо</th>
+                                        <th class="py-3 px-3">Овог нэр / Анги</th>
+                                        <th class="py-3 px-3">Түвшин</th>
+                                        <th class="py-3 px-3">Оноо</th>
+                                        <th class="py-3 px-3">Хугацаа</th>
+                                        <th class="py-3 px-3">IP / Төхөөрөмж</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-results-tbody" class="divide-y divide-slate-100 text-sm">
+                                    <!-- Injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- ADMIN TAB 4: STATISTICS                                   -->
+                <!-- ========================================================= -->
+                <div id="admin-panel-stats" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                            <p class="text-xs font-semibold text-slate-500">Нийт орон нутгийн оролдлого</p>
+                            <p id="stat-total-attempts" class="text-3xl font-extrabold text-slate-900 mt-1">0</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                            <p class="text-xs font-semibold text-slate-500">Дундаж гүйцэтгэл</p>
+                            <p id="stat-avg-score" class="text-3xl font-extrabold text-indigo-600 mt-1">0%</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                            <p class="text-xs font-semibold text-slate-500">Хамгийн түгээмэл түвшин</p>
+                            <p id="stat-top-level" class="text-3xl font-extrabold text-emerald-600 mt-1">-</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900">CEFR Түвшний тархалт</h3>
+                        <div id="admin-level-chart" class="grid grid-cols-6 gap-3 items-end h-44 pt-4 px-2 border-b border-slate-200">
+                            <!-- Bars injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 no-print">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>© 2026 CEFR Англи Хэлний Түвшин Тогтоох Систем.</p>
+            <p class="text-slate-600 font-medium text-center sm:text-right">
+                <i class="fa-solid fa-shield-halved text-indigo-600 mr-1"></i>
+                Энэ бол түвшин тогтоох шалгалт, IELTS/TOEFL-ийн оронд биш.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        /* ============================================================================
+           0. БАГШИЙН ҮНДСЭН ТОХИРГОО (GITHUB PAGES ДЭЭР БАЙРШУУЛАХЫН ӨМНӨ ШАЛГАНА УУ)
+           ============================================================================ */
+        // 1. Google Apps Script-ээ Deploy хийж авсан Web App URL-ийг доорх хаалтан дотор хуулж бичнэ үү:
+        // Жишээ: const DEFAULT_GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx.../exec';
+        const DEFAULT_GOOGLE_SHEETS_URL = '';
+
+        // 2. Багш / Админ самбар руу нэвтрэх нууц үг (Өөрийн нууц үгээр солино уу):
+        const TEACHER_ADMIN_PASSWORD = 'change_me_2026';
+
+        // 3. Тухайн түвшинг давсанд тооцох босго хувь (Анхдагч: 70%):
+        let PASS_THRESHOLD_PERCENT = 70;
+
+        /* ============================================================================
+           1. CEFR LEVELS & 60-QUESTION BANK (10 QUESTIONS PER LEVEL: A1 - C2)
+           ============================================================================ */
+        const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+        const CEFR_DESCRIPTIONS = {
+            'A1': {
+                title: 'Beginner (Анхан шат)',
+                rec: 'Та англи хэлний анхан шатны суурь ойлголттой байна. Өдөр тутмын түгээмэл 500–1000 үг цээжлэх, энгийн одоо цаг (Present Simple), "to be" үйл үг болон энгийн харилцан яриа сонсож дасгал хийхийг зөвлөж байна.'
+            },
+            'A2': {
+                title: 'Elementary (Суурь шат)',
+                rec: 'Та өдөр тутмын энгийн сэдвээр ойлголцох чадвартай болжээ. Өнгөрсөн ба ирээдүй цаг (Past Simple, Future), угтвар үгс (in/on/at) дээр ажиллаж, богино хэмжээний хялбаршуулсан ном (Graded Readers) уншаарай.'
+            },
+            'B1': {
+                title: 'Intermediate (Дунд шат)',
+                rec: 'Баяр хүргэе! Та бие даан аялах, ажил мэргэжлийн энгийн сэдвээр санаа бодлоо илэрхийлэх чадвартай байна. Present Perfect, нөхцөлт өгүүлбэрүүд (Conditionals) болон подкаст, мэдээ сонсох дадлыг нэмэгдүүлбэл B2 түвшинд хурдан хүрнэ.'
+            },
+            'B2': {
+                title: 'Upper-Intermediate (Ахисан дунд)',
+                rec: 'Та англи хэлээр чөлөөтэй харилцах, цогц эх уншиж гол санааг ойлгох өндөр чадвартай байна. Академик үгсийн сан (Academic Vocabulary), хэлц үгс (Idioms) болон эссэ бичих чадвараа хөгжүүлэхийг зөвлөе.'
+            },
+            'C1': {
+                title: 'Advanced (Гүнзгий шат)',
+                rec: 'Гайхалтай! Та их сургууль болон олон улсын ажлын орчинд англи хэлийг чөлөөтэй ашиглах түвшинд хүрсэн байна. Нарийн утга ялгаатай үгс (Nuances), уран зохиол болон мэргэжлийн судалгааны өгүүллэгүүд уншиж мэдлэгээ улам гүнзгийрүүлээрэй.'
+            },
+            'C2': {
+                title: 'Proficiency (Төгс эзэмшсэн)',
+                rec: 'Та англи хэлийг унаган хэлтэй хүний түвшинд ойлгож, ямар ч нөхцөлд оновчтой, уран яруу илэрхийлэх чадвартай байна!'
+            }
+        };
+
+        // 60 Questions Total: 10 per level (6 Grammar/Vocab, 2 Reading, 2 Listening)
+        const DEFAULT_QUESTIONS = [
+            // ==================== A1 LEVEL (10 Questions) ====================
+            { id: 'a1_g1', level: 'A1', section: 'grammar', type: 'Multiple Choice', prompt: 'Hello! My name _____ Sarah and I am from Mongolia.', options: ['am', 'is', 'are', 'be'], correct: 1 },
+            { id: 'a1_g2', level: 'A1', section: 'grammar', type: 'Fill in the Blank', prompt: 'They _____ two brothers and one sister.', options: ['has', 'have', 'having', 'are'], correct: 1 },
+            { id: 'a1_g3', level: 'A1', section: 'grammar', type: 'Sentence Completion', prompt: '"Where do you live?" — "_____"', options: ['I live in Ulaanbaatar.', 'I am 25 years old.', 'Yes, I do.', 'At 8 o’clock.'], correct: 0 },
+            { id: 'a1_g4', level: 'A1', section: 'grammar', type: 'Multiple Choice', prompt: 'My father _____ in a hospital. He is a doctor.', options: ['work', 'works', 'working', 'to work'], correct: 1 },
+            { id: 'a1_g5', level: 'A1', section: 'grammar', type: 'Fill in the Blank', prompt: 'There _____ four chairs in the kitchen.', options: ['is', 'am', 'are', 'be'], correct: 2 },
+            { id: 'a1_g6', level: 'A1', section: 'grammar', type: 'Sentence Completion', prompt: '"What time is it?" — "_____"', options: ['It is half past nine.', 'It is Monday.', 'In the morning.', 'Every day.'], correct: 0 },
+            { id: 'a1_r1', level: 'A1', section: 'reading', type: 'Reading Comprehension', passage: 'Tom is a student. Every morning, he wakes up at 7:00 AM. He eats bread and drinks tea for breakfast. Then, he walks to school with his friend.', prompt: 'How does Tom go to school?', options: ['By bus', 'By car', 'He walks', 'By bicycle'], correct: 2 },
+            { id: 'a1_r2', level: 'A1', section: 'reading', type: 'Reading Comprehension', passage: 'Anna has a small white cat. Its name is Snowy. Snowy likes to drink milk and sleep on the sofa in the afternoon.', prompt: 'What color is Anna’s cat?', options: ['Black', 'Brown', 'White', 'Gray'], correct: 2 },
+            { id: 'a1_l1', level: 'A1', section: 'listening', type: 'Listening Comprehension', audioScript: 'Excuse me, how much is this blue shirt? It is twenty dollars.', prompt: 'How much does the blue shirt cost?', options: ['$12', '$20', '$22', '$30'], correct: 1 },
+            { id: 'a1_l2', level: 'A1', section: 'listening', type: 'Listening Comprehension', audioScript: 'My favorite season is summer because the weather is warm and sunny.', prompt: 'Why does the speaker like summer?', options: ['It is cold and snowy.', 'It is warm and sunny.', 'It rains every day.', 'School is open.'], correct: 1 },
+
+            // ==================== A2 LEVEL (10 Questions) ====================
+            { id: 'a2_g1', level: 'A2', section: 'grammar', type: 'Multiple Choice', prompt: 'We _____ to the countryside last weekend because the weather was nice.', options: ['go', 'went', 'gone', 'going'], correct: 1 },
+            { id: 'a2_g2', level: 'A2', section: 'grammar', type: 'Fill in the Blank', prompt: 'This book is much _____ than the one I read yesterday.', options: ['interesting', 'more interesting', 'most interesting', 'interest'], correct: 1 },
+            { id: 'a2_g3', level: 'A2', section: 'grammar', type: 'Sentence Completion', prompt: 'I was cooking dinner when _____', options: ['the phone rang.', 'the phone rings.', 'the phone is ringing.', 'the phone will ring.'], correct: 0 },
+            { id: 'a2_g4', level: 'A2', section: 'grammar', type: 'Multiple Choice', prompt: 'How _____ sugar do you take in your coffee?', options: ['many', 'much', 'few', 'a lot'], correct: 1 },
+            { id: 'a2_g5', level: 'A2', section: 'grammar', type: 'Fill in the Blank', prompt: 'You _____ wear a seatbelt when driving a car. It is the law.', options: ['must', 'can', 'might', 'could'], correct: 0 },
+            { id: 'a2_g6', level: 'A2', section: 'grammar', type: 'Sentence Completion', prompt: 'She is going to visit her grandparents _____', options: ['next Saturday.', 'yesterday evening.', 'two weeks ago.', 'last month.'], correct: 0 },
+            { id: 'a2_r1', level: 'A2', section: 'reading', type: 'Reading Comprehension', passage: 'Notice: The City Library will be closed on Saturday for cleaning. It will open again on Sunday morning at 9:00 AM. Please return books using the outside drop-box.', prompt: 'Why is the library closed on Saturday?', options: ['It is a national holiday.', 'Staff are cleaning the building.', 'They are moving to a new place.', 'There are no books left.'], correct: 1 },
+            { id: 'a2_r2', level: 'A2', section: 'reading', type: 'Reading Comprehension', passage: 'David started learning Spanish six months ago. He practices for thirty minutes every evening using a mobile app and watches Spanish movies on weekends.', prompt: 'How often does David practice with his mobile app?', options: ['Once a week', 'Every evening', 'Only on weekends', 'Once a month'], correct: 1 },
+            { id: 'a2_l1', level: 'A2', section: 'listening', type: 'Listening Comprehension', audioScript: 'Attention passengers. The flight to Seoul has been delayed by thirty minutes due to heavy fog. Please wait at Gate 4.', prompt: 'Why is the flight delayed?', options: ['Technical problems', 'Heavy fog', 'Late crew', 'Gate change'], correct: 1 },
+            { id: 'a2_l2', level: 'A2', section: 'listening', type: 'Listening Comprehension', audioScript: 'Could you please pick up some milk and eggs from the supermarket on your way home? We have plenty of bread already.', prompt: 'What does the speaker ask the listener to buy?', options: ['Bread and milk', 'Milk and eggs', 'Eggs and bread', 'Only bread'], correct: 1 },
+
+            // ==================== B1 LEVEL (10 Questions) ====================
+            { id: 'b1_g1', level: 'B1', section: 'grammar', type: 'Multiple Choice', prompt: 'If it _____ tomorrow, we will cancel the outdoor picnic.', options: ['rains', 'will rain', 'rained', 'would rain'], correct: 0 },
+            { id: 'b1_g2', level: 'B1', section: 'grammar', type: 'Fill in the Blank', prompt: 'She has worked at this international company _____ 2021.', options: ['for', 'since', 'during', 'from'], correct: 1 },
+            { id: 'b1_g3', level: 'B1', section: 'grammar', type: 'Sentence Completion', prompt: 'Despite feeling exhausted after the long flight, _____', options: ['he decided to attend the evening meeting.', 'so he went straight to bed.', 'because he needed some rest.', 'and he slept for twelve hours.'], correct: 0 },
+            { id: 'b1_g4', level: 'B1', section: 'grammar', type: 'Multiple Choice', prompt: 'The new bridge _____ by local engineers last year.', options: ['built', 'was built', 'has built', 'is building'], correct: 1 },
+            { id: 'b1_g5', level: 'B1', section: 'grammar', type: 'Fill in the Blank', prompt: 'I wish I _____ more free time to learn another musical instrument.', options: ['have', 'had', 'will have', 'having'], correct: 1 },
+            { id: 'b1_g6', level: 'B1', section: 'grammar', type: 'Sentence Completion', prompt: 'That is the professor _____', options: ['whose research won the national award.', 'which research won the award.', 'who she won the national award.', 'whom won the national award.'], correct: 0 },
+            { id: 'b1_r1', level: 'B1', section: 'reading', type: 'Reading Comprehension', passage: 'Remote work has become increasingly popular over the past few years. While many employees appreciate saving time on daily commuting, some managers worry that working from home reduces team collaboration and spontaneous creativity.', prompt: 'What is one concern managers have about remote work?', options: ['Employees spend too much time commuting.', 'Office rent has become too expensive.', 'Team collaboration may decrease.', 'Workers refuse to use computers.'], correct: 2 },
+            { id: 'b1_r2', level: 'B1', section: 'reading', type: 'Reading Comprehension', passage: 'Urban community gardens transform unused city spaces into green areas where neighbors grow vegetables together. Beyond providing fresh produce, these gardens strengthen social ties and reduce urban heat.', prompt: 'What is mentioned as a benefit of urban community gardens?', options: ['They replace all supermarkets.', 'They strengthen social ties among neighbors.', 'They increase city temperatures.', 'They require no maintenance.'], correct: 1 },
+            { id: 'b1_l1', level: 'B1', section: 'listening', type: 'Listening Comprehension', audioScript: 'Hi Mark, this is Anna. I am calling to let you know that our project presentation has been moved from Tuesday to Thursday afternoon. Let me know if that works for you.', prompt: 'When will the project presentation take place now?', options: ['Tuesday morning', 'Tuesday afternoon', 'Thursday morning', 'Thursday afternoon'], correct: 3 },
+            { id: 'b1_l2', level: 'B1', section: 'listening', type: 'Listening Comprehension', audioScript: 'Before submitting your final essay, make sure to check all references and ensure that your main argument is clearly stated in the introduction.', prompt: 'What should students check before submitting their essay?', options: ['The font size only', 'All references and the main argument', 'The number of pages only', 'Their classmates’ grades'], correct: 1 },
+
+            // ==================== B2 LEVEL (10 Questions) ====================
+            { id: 'b2_g1', level: 'B2', section: 'grammar', type: 'Multiple Choice', prompt: 'By the time the rescue team arrived, the hikers _____ in the cave for over twelve hours.', options: ['have been trapped', 'had been trapped', 'were trapping', 'would be trapped'], correct: 1 },
+            { id: 'b2_g2', level: 'B2', section: 'grammar', type: 'Fill in the Blank', prompt: 'The board of directors decided to _____ the merger until market conditions stabilize.', options: ['put off', 'put up with', 'put across', 'put out'], correct: 0 },
+            { id: 'b2_g3', level: 'B2', section: 'grammar', type: 'Sentence Completion', prompt: 'Had I known about the traffic congestion earlier, _____', options: ['I would have taken the subway instead.', 'I will take the subway instead.', 'I took the subway instead.', 'I would take the subway instead.'], correct: 0 },
+            { id: 'b2_g4', level: 'B2', section: 'grammar', type: 'Multiple Choice', prompt: 'She denied _____ any confidential documents from the server.', options: ['to download', 'downloading', 'download', 'downloaded'], correct: 1 },
+            { id: 'b2_g5', level: 'B2', section: 'grammar', type: 'Fill in the Blank', prompt: 'The documentary provided a _____ analysis of how renewable energy is reshaping global markets.', options: ['comprehensive', 'comprehensible', 'comprehended', 'comprehension'], correct: 0 },
+            { id: 'b2_g6', level: 'B2', section: 'grammar', type: 'Sentence Completion', prompt: 'No matter how challenging the curriculum becomes, _____', options: ['students who manage their time well tend to succeed.', 'but students still pass the final exam.', 'so the teacher makes it much easier.', 'which is why nobody studies hard.'], correct: 0 },
+            { id: 'b2_r1', level: 'B2', section: 'reading', type: 'Reading Comprehension', passage: 'Urban vertical farming utilizes stacked layers to cultivate crops indoors under controlled LED lighting. Proponents argue it drastically cuts water usage and transportation emissions, though critics point out that high initial energy costs remain a significant hurdle.', prompt: 'What is identified as a major drawback of vertical farming?', options: ['Excessive water consumption', 'High initial energy costs', 'Lack of indoor space', 'Increased transportation emissions'], correct: 1 },
+            { id: 'b2_r2', level: 'B2', section: 'reading', type: 'Reading Comprehension', passage: 'Sleep plays a critical role in memory consolidation, the process by which short-term memories are stabilized into long-term storage. Chronic sleep deprivation not only impairs attention span but also disrupts emotional regulation.', prompt: 'What happens during memory consolidation?', options: ['Long-term memories are erased.', 'Short-term memories are stabilized into long-term storage.', 'Attention span is temporarily reduced.', 'Emotional regulation stops completely.'], correct: 1 },
+            { id: 'b2_l1', level: 'B2', section: 'listening', type: 'Listening Comprehension', audioScript: 'Although the quarterly sales figures exceeded our initial projections, we must remain cautious about rising supply chain expenses in the upcoming quarter.', prompt: 'What does the speaker advise regarding the upcoming quarter?', options: ['To celebrate without worry', 'To be cautious about supply chain expenses', 'To lower sales projections immediately', 'To stop ordering supplies'], correct: 1 },
+            { id: 'b2_l2', level: 'B2', section: 'listening', type: 'Listening Comprehension', audioScript: 'Participants in the clinical trial were randomly assigned to either the treatment group or the placebo group in order to eliminate selection bias.', prompt: 'Why were participants randomly assigned to groups?', options: ['To save money on medication', 'To eliminate selection bias', 'To shorten the study duration', 'To guarantee positive results'], correct: 1 },
+
+            // ==================== C1 LEVEL (10 Questions) ====================
+            { id: 'c1_g1', level: 'C1', section: 'grammar', type: 'Multiple Choice', prompt: 'Not only _____ the deadline, but the team also delivered a proposal that surpassed all client expectations.', options: ['they met', 'did they meet', 'they did meet', 'had they meeting'], correct: 1 },
+            { id: 'c1_g2', level: 'C1', section: 'grammar', type: 'Fill in the Blank', prompt: 'The ambassador’s remarks were deliberately _____, allowing both sides to interpret the agreement favorably.', options: ['ambiguous', 'redundant', 'belligerent', 'transparent'], correct: 0 },
+            { id: 'c1_g3', level: 'C1', section: 'grammar', type: 'Sentence Completion', prompt: 'Scarcely had the legislation been enacted _____', options: ['when several advocacy groups challenged its constitutionality.', 'than several advocacy groups challenged it.', 'after several groups had challenged it.', 'so that advocacy groups could challenge it.'], correct: 0 },
+            { id: 'c1_g4', level: 'C1', section: 'grammar', type: 'Multiple Choice', prompt: 'It is imperative that every applicant _____ their credentials prior to the interview.', options: ['submits', 'submit', 'submitted', 'will submit'], correct: 1 },
+            { id: 'c1_g5', level: 'C1', section: 'grammar', type: 'Fill in the Blank', prompt: 'The historian’s argument is _____ by newly discovered letters from the nineteenth century.', options: ['corroborated', 'mitigated', 'exacerbated', 'obliterated'], correct: 0 },
+            { id: 'c1_g6', level: 'C1', section: 'grammar', type: 'Sentence Completion', prompt: 'Seldom do we encounter a scientific theory that _____', options: ['reconciles such seemingly disparate phenomena so elegantly.', 'it explains everything without any evidence.', 'why researchers disagree on its validity.', 'having been proven wrong centuries ago.'], correct: 0 },
+            { id: 'c1_r1', level: 'C1', section: 'reading', type: 'Reading Comprehension', passage: 'Cognitive dissonance occurs when an individual holds contradictory beliefs or behaves in a manner inconsistent with their values. To alleviate this psychological discomfort, people frequently rationalize their actions rather than alter their ingrained habits.', prompt: 'According to the passage, how do individuals commonly resolve cognitive dissonance?', options: ['By immediately changing their habits', 'By justifying or rationalizing their behavior', 'By ignoring all external information', 'By adopting entirely new value systems'], correct: 1 },
+            { id: 'c1_r2', level: 'C1', section: 'reading', type: 'Reading Comprehension', passage: 'While algorithmic curation tailors digital content to individual preferences, critics contend it inadvertently fosters epistemic bubbles, insulating users from dissenting viewpoints and eroding shared public discourse.', prompt: 'What is a primary criticism of algorithmic curation mentioned in the text?', options: ['It makes internet speeds significantly slower.', 'It isolates users from opposing viewpoints.', 'It eliminates all personalized content.', 'It encourages too much public debate.'], correct: 1 },
+            { id: 'c1_l1', level: 'C1', section: 'listening', type: 'Listening Comprehension', audioScript: 'While correlation between two variables can be readily observed in longitudinal datasets, establishing genuine causality requires rigorous experimental controls to rule out confounding factors.', prompt: 'What is required to establish genuine causality according to the lecture?', options: ['Simple observation of datasets', 'Rigorous experimental controls', 'Eliminating all variables', 'Short-term surveys'], correct: 1 },
+            { id: 'c1_l2', level: 'C1', section: 'listening', type: 'Listening Comprehension', audioScript: 'The committee acknowledged that while austerity measures might curb short-term fiscal deficits, they risk stifling long-term economic growth if public investment is curtailed.', prompt: 'What risk do austerity measures pose according to the speaker?', options: ['Increasing short-term deficits immediately', 'Stifling long-term economic growth', 'Raising public investment excessively', 'Eliminating all government debt'], correct: 1 },
+
+            // ==================== C2 LEVEL (10 Questions) ====================
+            { id: 'c2_g1', level: 'C2', section: 'grammar', type: 'Multiple Choice', prompt: 'Were the central bank _____ interest rates abruptly, it could inadvertently trigger a liquidity crunch across emerging markets.', options: ['to raise', 'raising', 'raised', 'raise'], correct: 0 },
+            { id: 'c2_g2', level: 'C2', section: 'grammar', type: 'Fill in the Blank', prompt: 'Her _____ critique of the prevailing economic orthodoxy earned her both widespread acclaim and fierce opposition.', options: ['incisive', 'insipid', 'complacent', 'perfunctory'], correct: 0 },
+            { id: 'c2_g3', level: 'C2', section: 'grammar', type: 'Sentence Completion', prompt: 'The treatise is a tour de force of scholarship, _____', options: ['synthesizing disparate archival sources into a cohesive narrative.', 'which it fails to address any historical context.', 'despite having no coherent thesis whatsoever.', 'whereby the author ignores primary evidence.'], correct: 0 },
+            { id: 'c2_g4', level: 'C2', section: 'grammar', type: 'Multiple Choice', prompt: 'So _____ was the orator’s rhetoric that even the most skeptical members of the assembly were swayed.', options: ['cogent', 'vacuous', 'dilatory', 'tenuous'], correct: 0 },
+            { id: 'c2_g5', level: 'C2', section: 'grammar', type: 'Fill in the Blank', prompt: 'Far from being a _____ observer, the journalist played an instrumental role in exposing the systemic corruption.', options: ['disinterested', 'uninterested', 'detached', 'passive'], correct: 3 },
+            { id: 'c2_g6', level: 'C2', section: 'grammar', type: 'Sentence Completion', prompt: 'Be that as it may, the tribunal cannot _____', options: ['abrogate fundamental due process rights in the name of expediency.', 'which undermines the rule of law entirely.', 'having ignored every precedent established thus far.', 'whereby justice is arbitrarily dispensed.'], correct: 0 },
+            { id: 'c2_r1', level: 'C2', section: 'reading', type: 'Reading Comprehension', passage: 'Epistemological humility demands an acknowledgment of the inherent limitations of human perception and inferential reasoning. Far from inducing intellectual paralysis, this recognition fosters methodological rigor and openness to falsification.', prompt: 'What effect does epistemological humility have according to the text?', options: ['It causes complete intellectual paralysis.', 'It encourages methodological rigor and openness to falsification.', 'It proves human reasoning is infallible.', 'It discourages scientific inquiry.'], correct: 1 },
+            { id: 'c2_r2', level: 'C2', section: 'reading', type: 'Reading Comprehension', passage: 'In jurisprudence, strict textualism posits that statutory interpretation should be anchored exclusively in the ordinary meaning of the legal text at the time of enactment, eschewing extraneous legislative history or teleological conjecture.', prompt: 'According to strict textualism, how should laws be interpreted?', options: ['By prioritizing modern social outcomes over text', 'By relying primarily on legislative debates', 'By adhering to the ordinary meaning of the text when enacted', 'By disregarding written statutes altogether'], correct: 2 },
+            { id: 'c2_l1', level: 'C2', section: 'listening', type: 'Listening Comprehension', audioScript: 'The playwright’s use of dramatic irony serves not merely as a comedic device, but as a poignant commentary on the characters’ hubris and willful blindness to impending catastrophe.', prompt: 'What is the primary function of dramatic irony in the play discussed?', options: ['Purely slapstick comedy', 'A commentary on characters’ hubris and blindness', 'To confuse the audience about the plot', 'To introduce historical facts'], correct: 1 },
+            { id: 'c2_l2', level: 'C2', section: 'listening', type: 'Listening Comprehension', audioScript: 'While quantum entanglement defies classical intuitions of local realism, decades of Bell test experiments have unequivocally vindicated its empirical validity.', prompt: 'What have Bell test experiments demonstrated regarding quantum entanglement?', options: ['It violates empirical observation.', 'It confirms classical local realism.', 'They have unequivocally confirmed its empirical validity.', 'It is merely a mathematical artifact.'], correct: 2 }
+        ];
+
+        /* ============================================================================
+           2. APPLICATION STATE, IP/DEVICE TRACKING & STORAGE HELPERS
+           ============================================================================ */
+        const STORAGE_KEYS = {
+            QUESTIONS: 'cefr_app_questions_v2',
+            RESULTS: 'cefr_app_results_v2',
+            SHEETS_URL: 'cefr_app_sheets_url_v2',
+            THRESHOLD: 'cefr_app_threshold_v2'
+        };
+
+        let questionBank = [];
+        let resultsHistory = [];
+        let isAdminLoggedIn = false;
+
+        // Asynchronous Student IP Address
+        let studentIpAddress = 'Тодорхойгүй';
+
+        // Active Exam Session State
+        let examState = {
+            active: false,
+            mode: 'fixed', // 'fixed' (30 Qs) | 'adaptive' (up to 24 Qs)
+            userName: '',
+            userClass: '',
+            userEmail: '',
+            startTimeMs: null,
+            questions: [],
+            currentIndex: 0,
+            answers: {},
+            audioPlays: {},
+            timerSeconds: 30 * 60,
+            timerInterval: null,
+            adaptiveLevelIndex: 2, // Start at B1
+            adaptiveStreak: 0,
+            adaptiveMaxQuestions: 24,
+            usedQuestionIds: new Set()
+        };
+
+        window.onload = function () {
+            loadDataFromStorage();
+            updateAdminCountBadge();
+            updateSheetsStatusUI();
+            fetchStudentIpAddress();
+        };
+
+        function fetchStudentIpAddress() {
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.ip) studentIpAddress = data.ip;
+                })
+                .catch(() => {
+                    studentIpAddress = 'Хаагдсан / Тодорхойгүй';
+                });
+        }
+
+        function getDeviceSummary() {
+            const ua = navigator.userAgent;
+            let os = 'Desktop';
+            if (/android/i.test(ua)) os = 'Android';
+            else if (/iPad|iPhone|iPod/.test(ua)) os = 'iOS';
+            else if (/Windows/i.test(ua)) os = 'Windows';
+            else if (/Mac/i.test(ua)) os = 'MacOS';
+            else if (/Linux/i.test(ua)) os = 'Linux';
+
+            let browser = 'Browser';
+            if (/Edg/i.test(ua)) browser = 'Edge';
+            else if (/Chrome/i.test(ua)) browser = 'Chrome';
+            else if (/Safari/i.test(ua)) browser = 'Safari';
+            else if (/Firefox/i.test(ua)) browser = 'Firefox';
+
+            return `${os} / ${browser} (${window.screen.width}x${window.screen.height})`;
+        }
+
+        function formatDuration(startMs) {
+            if (!startMs) return 'Тодорхойгүй';
+            const totalSec = Math.max(1, Math.floor((Date.now() - startMs) / 1000));
+            const mins = Math.floor(totalSec / 60);
+            const secs = totalSec % 60;
+            return `${mins} мин ${secs} сек`;
+        }
+
+        function getActiveSheetsUrl() {
+            const overrideUrl = localStorage.getItem(STORAGE_KEYS.SHEETS_URL);
+            if (overrideUrl && overrideUrl.trim().startsWith('http')) {
+                return overrideUrl.trim();
+            }
+            return DEFAULT_GOOGLE_SHEETS_URL.trim();
+        }
+
+        function loadDataFromStorage() {
+            try {
+                const storedQ = localStorage.getItem(STORAGE_KEYS.QUESTIONS);
+                if (storedQ) {
+                    questionBank = JSON.parse(storedQ);
+                } else {
+                    questionBank = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+                    saveQuestionsToStorage();
+                }
+
+                const storedR = localStorage.getItem(STORAGE_KEYS.RESULTS);
+                if (storedR) {
+                    resultsHistory = JSON.parse(storedR);
+                }
+
+                const storedThreshold = localStorage.getItem(STORAGE_KEYS.THRESHOLD);
+                if (storedThreshold) {
+                    PASS_THRESHOLD_PERCENT = parseInt(storedThreshold, 10) || 70;
+                }
+                document.getElementById('home-threshold-label').textContent = `${PASS_THRESHOLD_PERCENT}%`;
+                document.getElementById('res-threshold-label').textContent = `${PASS_THRESHOLD_PERCENT}%`;
+            } catch (e) {
+                console.error('Storage load error:', e);
+                questionBank = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+            }
+        }
+
+        function saveQuestionsToStorage() {
+            localStorage.setItem(STORAGE_KEYS.QUESTIONS, JSON.stringify(questionBank));
+            updateAdminCountBadge();
+        }
+
+        function saveResultsToStorage() {
+            localStorage.setItem(STORAGE_KEYS.RESULTS, JSON.stringify(resultsHistory));
+        }
+
+        /* ============================================================================
+           3. UI NAVIGATION, TOASTS & AUDIO CHECK
+           ============================================================================ */
+        function navigateTo(viewName) {
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+            if (examState.active && viewName !== 'exam') {
+                showConfirmModal(
+                    'Шалгалтыг орхих уу?',
+                    'Шалгалт дуусаагүй байна. Хэрэв та одоо гарвал таны хийсэн хариултууд устах болно.',
+                    () => {
+                        clearInterval(examState.timerInterval);
+                        examState.active = false;
+                        switchViewDOM(viewName);
+                    }
+                );
+                return;
+            }
+            switchViewDOM(viewName);
+        }
+
+        function switchViewDOM(viewName) {
+            ['home', 'exam', 'results', 'history', 'admin'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden');
+
+            ['home', 'history', 'admin'].forEach(nav => {
+                const btn = document.getElementById(`nav-${nav}`);
+                if (!btn) return;
+                if (nav === viewName) {
+                    btn.classList.add('text-indigo-600', 'bg-indigo-50');
+                    btn.classList.remove('text-slate-600', 'text-slate-700');
+                } else {
+                    btn.classList.remove('text-indigo-600', 'bg-indigo-50');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+
+            if (viewName === 'history') renderUserHistory();
+            if (viewName === 'admin' && isAdminLoggedIn) {
+                updateSheetsStatusUI();
+                renderAdminQuestions();
+                renderAdminResults();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function testAudioSetup() {
+            if (!('speechSynthesis' in window)) {
+                showToast('Таны хөтөч дуу хоолой унших функц дэмжихгүй байна. Chrome эсвэл Safari ашиглана уу.', 'error');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance('Audio test successful. You are ready to begin your English placement test.');
+            utter.lang = 'en-US';
+            utter.rate = 0.95;
+            utter.onstart = () => showToast('Аудио шалгаж байна... Дуу сонсогдож байх ёстой.', 'info');
+            utter.onerror = () => showToast('Дуу тоглуулахад алдаа гарлаа. Төхөөрөмжийн дууг чангална уу.', 'error');
+            window.speechSynthesis.speak(utter);
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const colors = {
+                info: 'bg-slate-900 text-white border-slate-700',
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                warning: 'bg-amber-600 text-white border-amber-500',
+                error: 'bg-rose-600 text-white border-rose-500'
+            };
+            const icons = {
+                info: 'fa-circle-info',
+                success: 'fa-circle-check',
+                warning: 'fa-triangle-exclamation',
+                error: 'fa-circle-xmark'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg border text-sm font-medium transform transition-all duration-300 translate-y-2 opacity-0 ${colors[type] || colors.info}`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3800);
+        }
+
+        function showConfirmModal(title, message, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            confirmBtn.onclick = () => {
+                closeModal();
+                if (onConfirm) onConfirm();
+            };
+            cancelBtn.onclick = closeModal;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        /* ============================================================================
+           4. EXAM START & QUESTION RANDOMIZATION
+           ============================================================================ */
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function prepareQuestionInstance(rawQ) {
+            const indexedOptions = rawQ.options.map((text, idx) => ({
+                text,
+                isCorrect: idx === rawQ.correct
+            }));
+            const shuffled = shuffleArray(indexedOptions);
+            return {
+                ...rawQ,
+                shuffledOptions: shuffled.map(o => o.text),
+                shuffledCorrectIndex: shuffled.findIndex(o => o.isCorrect)
+            };
+        }
+
+        function startExam() {
+            const userName = document.getElementById('user-name').value.trim();
+            const userClass = document.getElementById('user-class').value.trim();
+            const userEmail = document.getElementById('user-email').value.trim();
+            const privacyAgree = document.getElementById('privacy-agree').checked;
+
+            if (!userName) {
+                showToast('Овог, нэрээ заавал оруулна уу.', 'warning');
+                document.getElementById('user-name').focus();
+                return;
+            }
+            if (!userClass) {
+                showToast('Анги эсвэл бүлгээ заавал оруулна уу.', 'warning');
+                document.getElementById('user-class').focus();
+                return;
+            }
+            if (!userEmail || !userEmail.includes('@')) {
+                showToast('Дүнгийн хуудас хүлээн авах хүчинтэй имэйл хаяг оруулна уу.', 'warning');
+                document.getElementById('user-email').focus();
+                return;
+            }
+            if (!privacyAgree) {
+                showToast('Үргэлжлүүлэхийн тулд мэдээлэл ашиглах зөвшөөрлийг чагтална уу.', 'warning');
+                return;
+            }
+
+            const mode = document.querySelector('input[name="testMode"]:checked').value;
+
+            examState = {
+                active: true,
+                mode: mode,
+                userName: userName,
+                userClass: userClass,
+                userEmail: userEmail,
+                startTimeMs: Date.now(),
+                questions: [],
+                currentIndex: 0,
+                answers: {},
+                audioPlays: {},
+                timerSeconds: 30 * 60, // 30 minutes
+                timerInterval: null,
+                adaptiveLevelIndex: 2, // Start at B1
+                adaptiveStreak: 0,
+                adaptiveMaxQuestions: 24,
+                usedQuestionIds: new Set()
+            };
+
+            if (mode === 'fixed') {
+                // Select 5 random questions per CEFR level (A1..C2) = 30 questions total
+                let selected = [];
+                CEFR_LEVELS.forEach(lvl => {
+                    const pool = shuffleArray(questionBank.filter(q => q.level === lvl));
+                    selected = selected.concat(pool.slice(0, 5));
+                });
+                examState.questions = shuffleArray(selected).map(prepareQuestionInstance);
+            } else {
+                const firstQ = pickNextAdaptiveQuestion(2);
+                if (!firstQ) {
+                    showToast('Асуултын сан хангалтгүй байна.', 'error');
+                    return;
+                }
+                examState.questions = [firstQ];
+            }
+
+            document.getElementById('exam-mode-badge').textContent =
+                mode === 'fixed' ? 'Тогтмол шалгалт (30 асуулт)' : 'Adaptive Шалгалт (24 асуулт)';
+
+            const paletteCol = document.getElementById('question-palette-col');
+            const qCol = document.getElementById('question-container-col');
+            const adaptiveBadge = document.getElementById('q-adaptive-indicator');
+
+            if (mode === 'adaptive') {
+                paletteCol.classList.add('hidden');
+                qCol.classList.remove('lg:col-span-9');
+                qCol.classList.add('lg:col-span-12', 'max-w-4xl', 'mx-auto', 'w-full');
+                adaptiveBadge.classList.remove('hidden');
+            } else {
+                paletteCol.classList.remove('hidden');
+                qCol.classList.remove('lg:col-span-12', 'max-w-4xl', 'mx-auto', 'w-full');
+                qCol.classList.add('lg:col-span-9');
+                adaptiveBadge.classList.add('hidden');
+            }
+
+            // Reset timer visual style
+            const timerBox = document.getElementById('timer-box');
+            timerBox.classList.remove('bg-rose-600');
+            timerBox.classList.add('bg-slate-900');
+
+            switchViewDOM('exam');
+            startTimer();
+            renderCurrentQuestion();
+        }
+
+        function pickNextAdaptiveQuestion(targetLevelIdx) {
+            const clampedIdx = Math.max(0, Math.min(CEFR_LEVELS.length - 1, targetLevelIdx));
+            const targetLevel = CEFR_LEVELS[clampedIdx];
+
+            let candidates = questionBank.filter(q => q.level === targetLevel && !examState.usedQuestionIds.has(q.id));
+            if (candidates.length === 0) {
+                candidates = questionBank.filter(q => !examState.usedQuestionIds.has(q.id));
+            }
+            if (candidates.length === 0) return null;
+
+            const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+            examState.usedQuestionIds.add(chosen.id);
+            return prepareQuestionInstance(chosen);
+        }
+
+        /* ============================================================================
+           5. TIMER, QUESTION RENDERING & LISTENING PLAYBACK
+           ============================================================================ */
+        function startTimer() {
+            clearInterval(examState.timerInterval);
+            updateTimerDisplay();
+            examState.timerInterval = setInterval(() => {
+                examState.timerSeconds--;
+                updateTimerDisplay();
+
+                if (examState.timerSeconds <= 60) {
+                    document.getElementById('timer-box').classList.add('bg-rose-600');
+                    document.getElementById('timer-box').classList.remove('bg-slate-900');
+                }
+
+                if (examState.timerSeconds <= 0) {
+                    clearInterval(examState.timerInterval);
+                    showToast('Шалгалтын 30 минутын хугацаа дууслаа!', 'warning');
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(Math.max(0, examState.timerSeconds) / 60);
+            const secs = Math.max(0, examState.timerSeconds) % 60;
+            document.getElementById('exam-timer').textContent =
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function renderCurrentQuestion() {
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+            const idx = examState.currentIndex;
+            const q = examState.questions[idx];
+            const totalQ = examState.mode === 'fixed'
+                ? examState.questions.length
+                : examState.adaptiveMaxQuestions;
+
+            const sectionNames = {
+                grammar: 'Grammar & Vocabulary',
+                reading: 'Reading Comprehension',
+                listening: 'Listening Comprehension'
+            };
+            document.getElementById('exam-section-badge').textContent = sectionNames[q.section] || q.section;
+            document.getElementById('q-type-label').textContent = q.type || 'Multiple Choice';
+
+            const answeredCount = Object.keys(examState.answers).length;
+            const pct = Math.round(((idx + 1) / totalQ) * 100);
+            document.getElementById('progress-text').textContent = `Асуулт ${idx + 1} / ${totalQ}`;
+            document.getElementById('progress-percent').textContent = `${answeredCount} хариулсан`;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+
+            // Reading Passage
+            const passageBox = document.getElementById('reading-passage-box');
+            if (q.section === 'reading' && q.passage) {
+                passageBox.classList.remove('hidden');
+                document.getElementById('reading-passage-text').textContent = q.passage;
+            } else {
+                passageBox.classList.add('hidden');
+            }
+
+            // Listening Audio
+            const audioBox = document.getElementById('listening-audio-box');
+            const html5Audio = document.getElementById('html5-audio-player');
+            if (q.section === 'listening') {
+                audioBox.classList.remove('hidden');
+                const playsUsed = examState.audioPlays[idx] || 0;
+                const playsLeft = Math.max(0, 3 - playsUsed);
+                document.getElementById('audio-plays-left').textContent = `Үлдсэн: ${playsLeft}/3`;
+                document.getElementById('play-audio-icon').className = 'fa-solid fa-play text-lg ml-0.5';
+
+                if (q.audioUrl) {
+                    html5Audio.src = q.audioUrl;
+                    html5Audio.classList.remove('hidden');
+                } else {
+                    html5Audio.classList.add('hidden');
+                    html5Audio.src = '';
+                }
+            } else {
+                audioBox.classList.add('hidden');
+                html5Audio.pause();
+            }
+
+            document.getElementById('question-prompt').textContent = `${idx + 1}. ${q.prompt}`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            const selectedOpt = examState.answers[idx];
+
+            q.shuffledOptions.forEach((optText, optIdx) => {
+                const isSelected = selectedOpt === optIdx;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectAnswer(optIdx);
+                btn.className = `w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 group ${
+                    isSelected
+                        ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 shadow-sm'
+                        : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50 text-slate-800'
+                }`;
+
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 transition ${
+                        isSelected
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-slate-100 text-slate-600 group-hover:bg-indigo-100 group-hover:text-indigo-700'
+                    }">${letters[optIdx]}</span>
+                    <span class="text-sm sm:text-base font-medium leading-snug">${optText}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-exam-btn');
+
+            if (examState.mode === 'adaptive') {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+                prevBtn.disabled = idx === 0;
+            }
+
+            const isLastQuestion = (idx + 1) >= totalQ;
+            if (isLastQuestion) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+
+            if (examState.mode === 'fixed') {
+                renderQuestionPalette();
+            }
+        }
+
+        function selectAnswer(optIdx) {
+            examState.answers[examState.currentIndex] = optIdx;
+            renderCurrentQuestion();
+        }
+
+        function prevQuestion() {
+            if (examState.mode === 'adaptive') return;
+            if (examState.currentIndex > 0) {
+                examState.currentIndex--;
+                renderCurrentQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const idx = examState.currentIndex;
+
+            if (examState.mode === 'adaptive') {
+                if (examState.answers[idx] === undefined) {
+                    showToast('Adaptive горимд дараагийн асуулт руу шилжихийн тулд хариултаа сонгоно уу.', 'warning');
+                    return;
+                }
+
+                const currentQ = examState.questions[idx];
+                const isCorrect = examState.answers[idx] === currentQ.shuffledCorrectIndex;
+
+                if (isCorrect) {
+                    examState.adaptiveStreak = Math.max(1, examState.adaptiveStreak + 1);
+                    if (examState.adaptiveStreak >= 1 && examState.adaptiveLevelIndex < CEFR_LEVELS.length - 1) {
+                        examState.adaptiveLevelIndex++;
+                    }
+                } else {
+                    examState.adaptiveStreak = Math.min(-1, examState.adaptiveStreak - 1);
+                    if (examState.adaptiveLevelIndex > 0) {
+                        examState.adaptiveLevelIndex--;
+                    }
+                }
+
+                if (examState.questions.length < examState.adaptiveMaxQuestions) {
+                    const nextQ = pickNextAdaptiveQuestion(examState.adaptiveLevelIndex);
+                    if (nextQ) {
+                        examState.questions.push(nextQ);
+                        examState.currentIndex++;
+                        renderCurrentQuestion();
+                        return;
+                    }
+                }
+                finishExam();
+                return;
+            }
+
+            if (idx < examState.questions.length - 1) {
+                examState.currentIndex++;
+                renderCurrentQuestion();
+            }
+        }
+
+        function jumpToQuestion(targetIdx) {
+            if (examState.mode === 'adaptive') return;
+            examState.currentIndex = targetIdx;
+            renderCurrentQuestion();
+        }
+
+        function renderQuestionPalette() {
+            const grid = document.getElementById('question-palette-grid');
+            grid.innerHTML = '';
+            const answeredCount = Object.keys(examState.answers).length;
+            document.getElementById('answered-count-badge').textContent = `${answeredCount}/${examState.questions.length}`;
+
+            examState.questions.forEach((_, idx) => {
+                const isCurrent = idx === examState.currentIndex;
+                const isAnswered = examState.answers[idx] !== undefined;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => jumpToQuestion(idx);
+                btn.textContent = idx + 1;
+
+                let cls = 'h-8 rounded-lg text-xs font-bold border transition ';
+                if (isCurrent) {
+                    cls += 'bg-indigo-600 text-white border-indigo-600 shadow-sm';
+                } else if (isAnswered) {
+                    cls += 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100';
+                } else {
+                    cls += 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100';
+                }
+                btn.className = cls;
+                grid.appendChild(btn);
+            });
+        }
+
+        function playCurrentAudio(rate = 1.0) {
+            const idx = examState.currentIndex;
+            const q = examState.questions[idx];
+            const playsUsed = examState.audioPlays[idx] || 0;
+
+            if (playsUsed >= 3) {
+                showToast('Энэ асуултын аудиог сонсох дээд хязгаар (3 удаа) дууссан байна.', 'warning');
+                return;
+            }
+
+            if (q.audioUrl) {
+                const player = document.getElementById('html5-audio-player');
+                player.playbackRate = rate;
+                player.play();
+                examState.audioPlays[idx] = playsUsed + 1;
+                document.getElementById('audio-plays-left').textContent = `Үлдсэн: ${3 - examState.audioPlays[idx]}/3`;
+                return;
+            }
+
+            if (!('speechSynthesis' in window)) {
+                showToast('Таны хөтөч дуу хоолой унших функц дэмжихгүй байна.', 'error');
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(q.audioScript || q.prompt);
+            utterance.lang = 'en-US';
+            utterance.rate = rate;
+
+            const icon = document.getElementById('play-audio-icon');
+            const statusText = document.getElementById('audio-status-text');
+
+            utterance.onstart = () => {
+                icon.className = 'fa-solid fa-volume-high text-lg animate-pulse';
+                statusText.textContent = `Аудио тоглож байна (${rate}x хурд)... Анхааралтай сонсоно уу.`;
+            };
+
+            utterance.onend = () => {
+                icon.className = 'fa-solid fa-play text-lg ml-0.5';
+                statusText.textContent = 'Дахин сонсох бол товчийг дарна уу.';
+            };
+
+            examState.audioPlays[idx] = playsUsed + 1;
+            document.getElementById('audio-plays-left').textContent = `Үлдсэн: ${3 - examState.audioPlays[idx]}/3`;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        /* ============================================================================
+           6. SCORING, GOOGLE SHEETS SYNC & AUTO-EMAIL DELIVERY
+           ============================================================================ */
+        function confirmFinishExam() {
+            const totalQ = examState.questions.length;
+            const answered = Object.keys(examState.answers).length;
+            const unanswered = totalQ - answered;
+
+            const msg = unanswered > 0
+                ? `Танд хариулаагүй ${unanswered} асуулт байна. Шалгалтыг дуусгаж дүнгээ илгээх үү?`
+                : 'Та бүх асуултад хариулсан байна. Шалгалтыг дуусгаж дүнгээ илгээх үү?';
+
+            showConfirmModal('Шалгалт дуусгах', msg, finishExam);
+        }
+
+        function finishExam() {
+            clearInterval(examState.timerInterval);
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+            examState.active = false;
+
+            const durationFormatted = formatDuration(examState.startTimeMs);
+            const deviceSummary = getDeviceSummary();
+
+            let totalCorrect = 0;
+            const totalQuestions = examState.questions.length;
+
+            const sections = {
+                grammar: { correct: 0, total: 0 },
+                reading: { correct: 0, total: 0 },
+                listening: { correct: 0, total: 0 }
+            };
+
+            const levelStats = {};
+            CEFR_LEVELS.forEach(lvl => {
+                levelStats[lvl] = { correct: 0, total: 0 };
+            });
+
+            const reviewDetails = [];
+
+            examState.questions.forEach((q, idx) => {
+                const userChoiceIdx = examState.answers[idx];
+                const isCorrect = userChoiceIdx === q.shuffledCorrectIndex;
+
+                if (isCorrect) totalCorrect++;
+
+                if (sections[q.section]) {
+                    sections[q.section].total++;
+                    if (isCorrect) sections[q.section].correct++;
+                }
+
+                if (levelStats[q.level]) {
+                    levelStats[q.level].total++;
+                    if (isCorrect) levelStats[q.level].correct++;
+                }
+
+                reviewDetails.push({
+                    prompt: q.prompt,
+                    level: q.level,
+                    section: q.section,
+                    userAnswer: userChoiceIdx !== undefined ? q.shuffledOptions[userChoiceIdx] : 'Хариулаагүй',
+                    correctAnswer: q.shuffledOptions[q.shuffledCorrectIndex],
+                    isCorrect
+                });
+            });
+
+            // Determine CEFR Level using configurable threshold (default 70%)
+            const thresholdRatio = PASS_THRESHOLD_PERCENT / 100;
+            let determinedLevel = 'A1';
+
+            if (examState.mode === 'fixed') {
+                for (let i = 0; i < CEFR_LEVELS.length; i++) {
+                    const lvl = CEFR_LEVELS[i];
+                    const st = levelStats[lvl];
+                    if (st.total > 0) {
+                        const acc = st.correct / st.total;
+                        if (acc >= thresholdRatio) {
+                            determinedLevel = lvl;
+                        } else if (i > 0) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                const overallAcc = totalCorrect / totalQuestions;
+                let adaptiveIdx = examState.adaptiveLevelIndex;
+                if (overallAcc < 0.4) adaptiveIdx = Math.max(0, adaptiveIdx - 1);
+                determinedLevel = CEFR_LEVELS[adaptiveIdx];
+            }
+
+            const overallPercent = Math.round((totalCorrect / totalQuestions) * 100);
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const certId = 'CEFR-' + Math.floor(100000 + Math.random() * 900000);
+
+            const gPct = sections.grammar.total ? Math.round((sections.grammar.correct / sections.grammar.total) * 100) : 0;
+            const rPct = sections.reading.total ? Math.round((sections.reading.correct / sections.reading.total) * 100) : 0;
+            const lPct = sections.listening.total ? Math.round((sections.listening.correct / sections.listening.total) * 100) : 0;
+
+            const resultRecord = {
+                id: certId,
+                date: dateStr,
+                timestamp: now.toLocaleString('mn-MN'),
+                userName: examState.userName,
+                userClass: examState.userClass,
+                userEmail: examState.userEmail,
+                mode: examState.mode === 'fixed' ? 'Тогтмол' : 'Adaptive',
+                determinedLevel,
+                totalCorrect,
+                totalQuestions,
+                overallPercent,
+                sections,
+                levelStats,
+                duration: durationFormatted,
+                ipAddress: studentIpAddress,
+                deviceInfo: deviceSummary,
+                reviewDetails
+            };
+
+            resultsHistory.unshift(resultRecord);
+            saveResultsToStorage();
+
+            displayResultView(resultRecord, true);
+
+            // Send payload to Google Sheets & Trigger Auto-Email
+            const sheetsPayload = {
+                name: resultRecord.userName,
+                classGroup: resultRecord.userClass,
+                email: resultRecord.userEmail,
+                mode: resultRecord.mode,
+                level: resultRecord.determinedLevel,
+                totalPercent: resultRecord.overallPercent,
+                correctCount: resultRecord.totalCorrect,
+                totalQuestions: resultRecord.totalQuestions,
+                grammarScore: `${sections.grammar.correct}/${sections.grammar.total} (${gPct}%)`,
+                readingScore: `${sections.reading.correct}/${sections.reading.total} (${rPct}%)`,
+                listeningScore: `${sections.listening.correct}/${sections.listening.total} (${lPct}%)`,
+                duration: resultRecord.duration,
+                ipAddress: resultRecord.ipAddress,
+                deviceInfo: resultRecord.deviceInfo
+            };
+
+            submitToGoogleSheets(sheetsPayload);
+        }
+
+        function submitToGoogleSheets(payload) {
+            const banner = document.getElementById('sync-status-banner');
+            const icon = document.getElementById('sync-status-icon');
+            const title = document.getElementById('sync-status-title');
+            const desc = document.getElementById('sync-status-desc');
+
+            banner.classList.remove('hidden');
+            const targetUrl = getActiveSheetsUrl();
+
+            if (!targetUrl) {
+                banner.className = 'rounded-2xl p-4 border flex items-center justify-between gap-4 no-print bg-amber-50 border-amber-200 text-amber-900';
+                icon.className = 'fa-solid fa-circle-info text-amber-600 text-lg';
+                title.textContent = 'Google Sheets холбоос тохируулаагүй байна (Зөвхөн төхөөрөмж дээр хадгалагдлаа)';
+                desc.textContent = 'Багш DEFAULT_GOOGLE_SHEETS_URL тохируулсны дараа дүн имэйлээр болон хүснэгт рүү автоматаар илгээгдэнэ.';
+                return;
+            }
+
+            banner.className = 'rounded-2xl p-4 border flex items-center justify-between gap-4 no-print bg-indigo-50 border-indigo-200 text-indigo-900';
+            icon.className = 'fa-solid fa-spinner fa-spin text-indigo-600 text-lg';
+            title.textContent = 'Үр дүнг багшийн Google Sheet болон таны имэйл рүү илгээж байна...';
+            desc.textContent = `Хүлээн авагч имэйл: ${payload.email}`;
+
+            fetch(targetUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                banner.className = 'rounded-2xl p-4 border flex items-center justify-between gap-4 no-print bg-emerald-50 border-emerald-200 text-emerald-950';
+                icon.className = 'fa-solid fa-envelope-circle-check text-emerald-600 text-xl';
+                title.textContent = 'Үр дүн амжилттай илгээгдлээ!';
+                desc.textContent = `Таны "${payload.email}" имэйл хаяг руу дүнгийн хуудас илгээгдсэн (Spam/Promotions хавтсыг мөн шалгана уу).`;
+            })
+            .catch((err) => {
+                console.error('Sheets sync error:', err);
+                banner.className = 'rounded-2xl p-4 border flex items-center justify-between gap-4 no-print bg-rose-50 border-rose-200 text-rose-900';
+                icon.className = 'fa-solid fa-circle-exclamation text-rose-600 text-lg';
+                title.textContent = 'Сервер рүү илгээхэд сүлжээний алдаа гарлаа';
+                desc.textContent = 'Та доорх "Гэрчилгээ татах / Хэвлэх" товчоор дүнгээ PDF болгон хадгалж авна уу.';
+            });
+        }
+
+        function displayResultView(res, isFreshSubmission = false) {
+            const info = CEFR_DESCRIPTIONS[res.determinedLevel] || CEFR_DESCRIPTIONS['A1'];
+            const banner = document.getElementById('sync-status-banner');
+            if (!isFreshSubmission) {
+                banner.classList.add('hidden');
+            }
+
+            document.getElementById('res-user-greeting').textContent = `${res.userName} (${res.userClass || ''})`;
+            document.getElementById('res-meta-info').textContent =
+                `Огноо: ${res.date} • Загвар: ${res.mode} • Зарцуулсан хугацаа: ${res.duration || '-'} • ID: #${res.id}`;
+
+            document.getElementById('res-cefr-level').textContent = res.determinedLevel;
+            document.getElementById('res-cefr-title').textContent = info.title;
+            document.getElementById('res-total-score').textContent = `${res.totalCorrect}/${res.totalQuestions}`;
+            document.getElementById('res-total-percent').textContent = `${res.overallPercent}%`;
+            document.getElementById('res-duration-badge').textContent = res.duration || '-';
+
+            const calcPct = (sec) => sec.total > 0 ? Math.round((sec.correct / sec.total) * 100) : 0;
+            const gPct = calcPct(res.sections.grammar);
+            const rPct = calcPct(res.sections.reading);
+            const lPct = calcPct(res.sections.listening);
+
+            document.getElementById('res-sec-grammar-text').textContent = `${res.sections.grammar.correct}/${res.sections.grammar.total} (${gPct}%)`;
+            document.getElementById('res-sec-grammar-bar').style.width = `${gPct}%`;
+
+            document.getElementById('res-sec-reading-text').textContent = `${res.sections.reading.correct}/${res.sections.reading.total} (${rPct}%)`;
+            document.getElementById('res-sec-reading-bar').style.width = `${rPct}%`;
+
+            document.getElementById('res-sec-listening-text').textContent = `${res.sections.listening.correct}/${res.sections.listening.total} (${lPct}%)`;
+            document.getElementById('res-sec-listening-bar').style.width = `${lPct}%`;
+
+            // Level breakdown pills
+            const lvlContainer = document.getElementById('res-level-breakdown');
+            lvlContainer.innerHTML = '';
+            CEFR_LEVELS.forEach(lvl => {
+                const st = res.levelStats[lvl] || { correct: 0, total: 0 };
+                const pct = st.total > 0 ? Math.round((st.correct / st.total) * 100) : null;
+                const passed = pct !== null && pct >= PASS_THRESHOLD_PERCENT;
+
+                const pill = document.createElement('div');
+                pill.className = `p-2 rounded-xl border text-center ${
+                    pct === null
+                        ? 'bg-slate-50 border-slate-200 text-slate-400'
+                        : passed
+                            ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                            : 'bg-slate-50 border-slate-200 text-slate-700'
+                }`;
+                pill.innerHTML = `
+                    <span class="block font-extrabold text-xs">${lvl}</span>
+                    <span class="block text-[11px] font-semibold mt-0.5">${pct !== null ? pct + '%' : '-'}</span>
+                `;
+                lvlContainer.appendChild(pill);
+            });
+
+            document.getElementById('res-recommendation-text').textContent = info.rec;
+
+            // Populate Certificate
+            document.getElementById('cert-user-name').textContent = res.userName;
+            document.getElementById('cert-user-class').textContent = `Анги / Бүлэг: ${res.userClass || '-'}`;
+            document.getElementById('cert-level-badge').textContent = `${res.determinedLevel} — ${info.title.split(' ')[0]}`;
+            document.getElementById('cert-sec-grammar').textContent = `${gPct}%`;
+            document.getElementById('cert-sec-reading').textContent = `${rPct}%`;
+            document.getElementById('cert-sec-listening').textContent = `${lPct}%`;
+            document.getElementById('cert-duration').textContent = res.duration || '-';
+            document.getElementById('cert-date').textContent = res.date;
+            document.getElementById('cert-id').textContent = `#${res.id}`;
+
+            // Answer Review List
+            const reviewList = document.getElementById('answer-review-list');
+            reviewList.innerHTML = '';
+            reviewList.classList.add('hidden');
+            document.getElementById('toggle-review-btn').innerHTML = 'Харах <i class="fa-solid fa-chevron-down ml-1"></i>';
+
+            res.reviewDetails.forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border text-sm ${
+                    item.isCorrect ? 'bg-emerald-50/40 border-emerald-200' : 'bg-rose-50/40 border-rose-200'
+                }`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700">${item.level} • ${item.section}</span>
+                        <span class="text-xs font-bold ${item.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                            <i class="fa-solid ${item.isCorrect ? 'fa-check' : 'fa-xmark'} mr-1"></i>${item.isCorrect ? 'Зөв' : 'Буруу'}
+                        </span>
+                    </div>
+                    <p class="font-semibold text-slate-900 mt-1">${i + 1}. ${item.prompt}</p>
+                    <div class="mt-2 text-xs space-y-1">
+                        <p class="text-slate-600">Таны хариулт: <strong class="${item.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${item.userAnswer}</strong></p>
+                        ${!item.isCorrect ? `<p class="text-emerald-800">Зөв хариулт: <strong>${item.correctAnswer}</strong></p>` : ''}
+                    </div>
+                `;
+                reviewList.appendChild(card);
+            });
+
+            switchViewDOM('results');
+        }
+
+        function toggleAnswerReview() {
+            const list = document.getElementById('answer-review-list');
+            const btn = document.getElementById('toggle-review-btn');
+            if (list.classList.contains('hidden')) {
+                list.classList.remove('hidden');
+                btn.innerHTML = 'Хураах <i class="fa-solid fa-chevron-up ml-1"></i>';
+            } else {
+                list.classList.add('hidden');
+                btn.innerHTML = 'Харах <i class="fa-solid fa-chevron-down ml-1"></i>';
+            }
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        /* ============================================================================
+           7. USER HISTORY VIEW
+           ============================================================================ */
+        function renderUserHistory() {
+            const container = document.getElementById('user-history-list');
+            if (resultsHistory.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                        <i class="fa-regular fa-folder-open text-3xl text-slate-400 mb-2"></i>
+                        <p class="text-sm font-medium text-slate-600">Одоогоор өгсөн шалгалтын түүх алга байна.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            resultsHistory.forEach((res, idx) => {
+                const row = document.createElement('div');
+                row.className = 'p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 bg-white flex flex-wrap items-center justify-between gap-4 transition';
+                row.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white font-black text-lg flex items-center justify-center shrink-0">
+                            ${res.determinedLevel}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base">${res.userName} <span class="text-xs font-normal text-slate-500">(${res.userClass || ''})</span></h3>
+                            <p class="text-xs text-slate-500">${res.timestamp} • ${res.mode} • Оноо: ${res.totalCorrect}/${res.totalQuestions} (${res.overallPercent}%) • Хугацаа: ${res.duration || '-'}</p>
+                        </div>
+                    </div>
+                    <button onclick="viewSavedResult(${idx})" class="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs transition">
+                        Үр дүн & Гэрчилгээ харах
+                    </button>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function viewSavedResult(index) {
+            if (resultsHistory[index]) {
+                displayResultView(resultsHistory[index], false);
+            }
+        }
+
+        /* ============================================================================
+           8. TEACHER / ADMIN PANEL LOGIC
+           ============================================================================ */
+        function updateAdminCountBadge() {
+            const el = document.getElementById('admin-q-count');
+            if (el) el.textContent = questionBank.length;
+        }
+
+        function loginAdmin() {
+            const pwd = document.getElementById('admin-password-input').value;
+            if (pwd === TEACHER_ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-dashboard-content').classList.remove('hidden');
+                document.getElementById('admin-password-input').value = '';
+                updateSheetsStatusUI();
+                renderAdminQuestions();
+                renderAdminResults();
+                showToast('Багш / Админ эрхээр амжилттай нэвтэрлээ.', 'success');
+            } else {
+                showToast('Нууц үг буруу байна!', 'error');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-login-box').classList.remove('hidden');
+            document.getElementById('admin-dashboard-content').classList.add('hidden');
+        }
+
+        function switchAdminTab(tab) {
+            const tabs = ['sheets', 'questions', 'results', 'stats'];
+            tabs.forEach(t => {
+                const panel = document.getElementById(`admin-panel-${t}`);
+                const btn = document.getElementById(`admin-tab-${t}`);
+                if (t === tab) {
+                    panel.classList.remove('hidden');
+                    btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 text-white transition';
+                } else {
+                    panel.classList.add('hidden');
+                    btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+                }
+            });
+
+            if (tab === 'sheets') updateSheetsStatusUI();
+            if (tab === 'questions') renderAdminQuestions();
+            if (tab === 'results' || tab === 'stats') renderAdminResults();
+        }
+
+        function updateSheetsStatusUI() {
+            const url = getActiveSheetsUrl();
+            const badge = document.getElementById('sheets-config-badge');
+            const input = document.getElementById('admin-sheets-url-input');
+            const threshInput = document.getElementById('admin-threshold-input');
+
+            if (input) input.value = localStorage.getItem(STORAGE_KEYS.SHEETS_URL) || DEFAULT_GOOGLE_SHEETS_URL;
+            if (threshInput) threshInput.value = PASS_THRESHOLD_PERCENT;
+
+            if (badge) {
+                if (url) {
+                    badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Холбогдсон (URL идэвхтэй)';
+                } else {
+                    badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
+                    badge.textContent = 'URL тохируулаагүй байна';
+                }
+            }
+        }
+
+        function saveAdminSheetsUrl() {
+            const val = document.getElementById('admin-sheets-url-input').value.trim();
+            if (val && !val.startsWith('https://script.google.com/')) {
+                showToast('Зөв Google Apps Script Web App URL оруулна уу (https://script.google.com/...).', 'warning');
+                return;
+            }
+            localStorage.setItem(STORAGE_KEYS.SHEETS_URL, val);
+            updateSheetsStatusUI();
+            showToast('URL энэ хөтөч дээр хадгалагдлаа. Бүх оюутанд түгээх бол кодын DEFAULT_GOOGLE_SHEETS_URL-д хуулна уу.', 'success');
+        }
+
+        function saveThresholdSetting() {
+            const val = parseInt(document.getElementById('admin-threshold-input').value, 10);
+            if (isNaN(val) || val < 50 || val > 95) {
+                showToast('Босго оноо 50%–95% хооронд байх ёстой.', 'warning');
+                return;
+            }
+            PASS_THRESHOLD_PERCENT = val;
+            localStorage.setItem(STORAGE_KEYS.THRESHOLD, String(val));
+            document.getElementById('home-threshold-label').textContent = `${val}%`;
+            document.getElementById('res-threshold-label').textContent = `${val}%`;
+            showToast(`Түвшин ахих босго оноо ${val}% болж шинэчлэгдлээ.`, 'success');
+        }
+
+        function testSheetsConnection() {
+            const url = getActiveSheetsUrl();
+            if (!url) {
+                showToast('Эхлээд Google Apps Script Web App URL оруулна уу.', 'warning');
+                return;
+            }
+
+            const testPayload = {
+                name: 'Туршилтын Оюутан (Test)',
+                classGroup: 'TEST-101',
+                email: '',
+                mode: 'Туршилт',
+                level: 'B1',
+                totalPercent: 80,
+                correctCount: 24,
+                totalQuestions: 30,
+                grammarScore: '15/18 (83%)',
+                readingScore: '5/6 (83%)',
+                listeningScore: '4/6 (67%)',
+                duration: '0 мин 15 сек',
+                ipAddress: studentIpAddress,
+                deviceInfo: getDeviceSummary()
+            };
+
+            showToast('Туршилтын өгөгдөл Google Sheet рүү илгээж байна...', 'info');
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(testPayload)
+            })
+            .then(() => {
+                showToast('Илгээгдлээ! Google Sheet дээрээ "Туршилтын Оюутан" мөр орсон эсэхийг шалгана уу.', 'success');
+            })
+            .catch(() => {
+                showToast('Илгээх үед алдаа гарлаа. URL болон "Anyone" эрхийг шалгана уу.', 'error');
+            });
+        }
+
+        function copyAppsScriptCode() {
+            const codeText = document.getElementById('apps-script-code-block').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = codeText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Google Apps Script код амжилттай хуулагдлаа!', 'success');
+            } catch (err) {
+                showToast('Код хуулахад алдаа гарлаа.', 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Question Bank CRUD
+        function toggleAdminExtraFields() {
+            const sec = document.getElementById('q-section').value;
+            document.getElementById('admin-passage-field').classList.toggle('hidden', sec !== 'reading');
+            document.getElementById('admin-audio-field').classList.toggle('hidden', sec !== 'listening');
+        }
+
+        function saveQuestionForm(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-q-id').value;
+            const level = document.getElementById('q-level').value;
+            const section = document.getElementById('q-section').value;
+            const type = document.getElementById('q-type').value;
+            const prompt = document.getElementById('q-prompt').value.trim();
+            const passage = document.getElementById('q-passage').value.trim();
+            const audioScript = document.getElementById('q-audio-script').value.trim();
+            const audioUrl = document.getElementById('q-audio-url').value.trim();
+
+            const options = [
+                document.getElementById('q-opt-0').value.trim(),
+                document.getElementById('q-opt-1').value.trim(),
+                document.getElementById('q-opt-2').value.trim(),
+                document.getElementById('q-opt-3').value.trim()
+            ];
+            const correct = parseInt(document.getElementById('q-correct').value, 10);
+
+            const questionObj = {
+                id: editId || ('q_' + Date.now()),
+                level,
+                section,
+                type,
+                prompt,
+                options,
+                correct
+            };
+
+            if (section === 'reading' && passage) questionObj.passage = passage;
+            if (section === 'listening') {
+                if (audioScript) questionObj.audioScript = audioScript;
+                if (audioUrl) questionObj.audioUrl = audioUrl;
+            }
+
+            if (editId) {
+                const idx = questionBank.findIndex(q => q.id === editId);
+                if (idx !== -1) questionBank[idx] = questionObj;
+                showToast('Асуулт амжилттай шинэчлэгдлээ.', 'success');
+            } else {
+                questionBank.unshift(questionObj);
+                showToast('Шинэ асуулт санд нэмэгдлээ.', 'success');
+            }
+
+            saveQuestionsToStorage();
+            resetQuestionForm();
+            renderAdminQuestions();
+        }
+
+        function editQuestion(id) {
+            const q = questionBank.find(item => item.id === id);
+            if (!q) return;
+
+            document.getElementById('edit-q-id').value = q.id;
+            document.getElementById('q-level').value = q.level;
+            document.getElementById('q-section').value = q.section;
+            document.getElementById('q-type').value = q.type || 'Multiple Choice';
+            document.getElementById('q-prompt').value = q.prompt;
+            document.getElementById('q-passage').value = q.passage || '';
+            document.getElementById('q-audio-script').value = q.audioScript || '';
+            document.getElementById('q-audio-url').value = q.audioUrl || '';
+
+            document.getElementById('q-opt-0').value = q.options[0] || '';
+            document.getElementById('q-opt-1').value = q.options[1] || '';
+            document.getElementById('q-opt-2').value = q.options[2] || '';
+            document.getElementById('q-opt-3').value = q.options[3] || '';
+            document.getElementById('q-correct').value = String(q.correct);
+
+            toggleAdminExtraFields();
+
+            document.getElementById('q-form-title').innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-600 mr-1.5"></i>Асуулт засах';
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+            document.getElementById('question-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuestionForm() {
+            document.getElementById('question-form').reset();
+            document.getElementById('edit-q-id').value = '';
+            document.getElementById('q-form-title').innerHTML = '<i class="fa-solid fa-plus-circle text-indigo-600 mr-1.5"></i>Шинэ асуулт нэмэх';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+            toggleAdminExtraFields();
+        }
+
+        function deleteQuestion(id) {
+            showConfirmModal('Асуулт устгах', 'Энэ асуултыг асуултын сангаас бүрмөсөн устгах уу?', () => {
+                questionBank = questionBank.filter(q => q.id !== id);
+                saveQuestionsToStorage();
+                renderAdminQuestions();
+                showToast('Асуулт устгагдлаа.', 'info');
+            });
+        }
+
+        function resetDefaultQuestions() {
+            showConfirmModal('Анхны 60 асуултыг сэргээх', 'Бүх асуултыг анхны 60 жишээ асуултаар дахин сэргээх үү?', () => {
+                questionBank = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+                saveQuestionsToStorage();
+                renderAdminQuestions();
+                showToast('Анхны 60 асуултын сан сэргээгдлээ.', 'success');
+            });
+        }
+
+        function renderAdminQuestions() {
+            const filterLvl = document.getElementById('admin-filter-level').value;
+            const filterSec = document.getElementById('admin-filter-section').value;
+            const tbody = document.getElementById('admin-questions-tbody');
+
+            const filtered = questionBank.filter(q => {
+                const matchL = filterLvl === 'ALL' || q.level === filterLvl;
+                const matchS = filterSec === 'ALL' || q.section === filterSec;
+                return matchL && matchS;
+            });
+
+            tbody.innerHTML = '';
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-slate-400">Тохирох асуулт олдсонгүй.</td></tr>';
+                return;
+            }
+
+            filtered.forEach(q => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-3">
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-extrabold text-xs">${q.level}</span>
+                    </td>
+                    <td class="py-3 px-3 text-xs">
+                        <span class="font-semibold text-slate-800 capitalize block">${q.section}</span>
+                        <span class="text-slate-400">${q.type || ''}</span>
+                    </td>
+                    <td class="py-3 px-3 max-w-md">
+                        <p class="font-medium text-slate-900 line-clamp-2">${q.prompt}</p>
+                        ${q.section === 'listening' ? '<span class="text-[11px] text-purple-600"><i class="fa-solid fa-volume-high mr-1"></i>Аудиотой</span>' : ''}
+                        ${q.section === 'reading' ? '<span class="text-[11px] text-emerald-600"><i class="fa-solid fa-book-open mr-1"></i>Эшлэлтэй</span>' : ''}
+                    </td>
+                    <td class="py-3 px-3 text-xs font-semibold text-emerald-700">
+                        ${q.options[q.correct]}
+                    </td>
+                    <td class="py-3 px-3 text-right whitespace-nowrap">
+                        <button onclick="editQuestion('${q.id}')" class="p-2 rounded-lg text-indigo-600 hover:bg-indigo-50 transition" title="Засах">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button onclick="deleteQuestion('${q.id}')" class="p-2 rounded-lg text-rose-600 hover:bg-rose-50 transition" title="Устгах">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderAdminResults() {
+            const total = resultsHistory.length;
+            document.getElementById('stat-total-attempts').textContent = total;
+
+            if (total === 0) {
+                document.getElementById('stat-avg-score').textContent = '0%';
+                document.getElementById('stat-top-level').textContent = '-';
+                document.getElementById('admin-results-tbody').innerHTML =
+                    '<tr><td colspan="6" class="py-6 text-center text-slate-400">Одоогоор шалгалтын үр дүн бүртгэгдээгүй байна.</td></tr>';
+                renderLevelChart({});
+                return;
+            }
+
+            const avgPct = Math.round(resultsHistory.reduce((acc, r) => acc + r.overallPercent, 0) / total);
+            document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
+
+            const levelCounts = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 };
+            resultsHistory.forEach(r => {
+                if (levelCounts[r.determinedLevel] !== undefined) levelCounts[r.determinedLevel]++;
+            });
+
+            let topLvl = 'A1';
+            let maxCount = -1;
+            CEFR_LEVELS.forEach(lvl => {
+                if (levelCounts[lvl] > maxCount) {
+                    maxCount = levelCounts[lvl];
+                    topLvl = lvl;
+                }
+            });
+            document.getElementById('stat-top-level').textContent = topLvl;
+
+            renderLevelChart(levelCounts);
+
+            const tbody = document.getElementById('admin-results-tbody');
+            tbody.innerHTML = '';
+            resultsHistory.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50';
+                tr.innerHTML = `
+                    <td class="py-3 px-3 text-xs text-slate-500">${r.date}</td>
+                    <td class="py-3 px-3">
+                        <span class="font-semibold text-slate-900 block">${r.userName} (${r.userClass || '-'})</span>
+                        <span class="text-xs text-slate-400">${r.userEmail || ''}</span>
+                    </td>
+                    <td class="py-3 px-3">
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-extrabold text-xs">${r.determinedLevel}</span>
+                    </td>
+                    <td class="py-3 px-3 text-xs font-bold text-slate-800">${r.totalCorrect}/${r.totalQuestions} (${r.overallPercent}%)</td>
+                    <td class="py-3 px-3 text-xs text-slate-700">${r.duration || '-'}</td>
+                    <td class="py-3 px-3 text-xs text-slate-500">
+                        <span class="block font-mono">${r.ipAddress || '-'}</span>
+                        <span class="text-[11px] text-slate-400">${r.deviceInfo || ''}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderLevelChart(counts) {
+            const chart = document.getElementById('admin-level-chart');
+            chart.innerHTML = '';
+            const maxVal = Math.max(1, ...Object.values(counts));
+
+            CEFR_LEVELS.forEach(lvl => {
+                const val = counts[lvl] || 0;
+                const heightPct = Math.round((val / maxVal) * 100);
+                const col = document.createElement('div');
+                col.className = 'flex flex-col items-center justify-end h-full gap-1.5';
+                col.innerHTML = `
+                    <span class="text-xs font-bold text-slate-700">${val}</span>
+                    <div class="w-full max-w-[44px] bg-indigo-600 rounded-t-xl transition-all duration-500" style="height: ${Math.max(6, heightPct)}%;"></div>
+                    <span class="text-xs font-extrabold text-slate-600">${lvl}</span>
+                `;
+                chart.appendChild(col);
+            });
+        }
+
+        function clearAllResults() {
+            showConfirmModal('Бүх үр дүнг устгах', 'Энэ хөтөч дээрх шалгалтын түүхийг цэвэрлэх үү?', () => {
+                resultsHistory = [];
+                saveResultsToStorage();
+                renderAdminResults();
+                showToast('Орон нутгийн түүх цэвэрлэгдлээ.', 'info');
+            });
+        }
+
+        function exportResultsToCSV() {
+            if (resultsHistory.length === 0) {
+                showToast('Экспортлох шалгалтын үр дүн алга байна.', 'warning');
+                return;
+            }
+
+            let csvContent = '\uFEFF';
+            csvContent += 'ID,Огноо,Овог нэр,Анги/Бүлэг,Имэйл,Шалгалтын загвар,CEFR Түвшин,Зөв хариулт,Нийт асуулт,Нийт хувь (%),Дүрэм/Үгс (%),Унших (%),Сонсох (%),Зарцуулсан хугацаа,IP хаяг,Төхөөрөмж\n';
+
+            resultsHistory.forEach(r => {
+                const gPct = r.sections.grammar.total ? Math.round((r.sections.grammar.correct / r.sections.grammar.total) * 100) : 0;
+                const uPct = r.sections.reading.total ? Math.round((r.sections.reading.correct / r.sections.reading.total) * 100) : 0;
+                const sPct = r.sections.listening.total ? Math.round((r.sections.listening.correct / r.sections.listening.total) * 100) : 0;
+
+                const row = [
+                    r.id,
+                    r.date,
+                    `"${r.userName.replace(/"/g, '""')}"`,
+                    `"${(r.userClass || '').replace(/"/g, '""')}"`,
+                    `"${(r.userEmail || '').replace(/"/g, '""')}"`,
+                    r.mode,
+                    r.determinedLevel,
+                    r.totalCorrect,
+                    r.totalQuestions,
+                    r.overallPercent,
+                    gPct,
+                    uPct,
+                    sPct,
+                    `"${(r.duration || '').replace(/"/g, '""')}"`,
+                    `"${(r.ipAddress || '').replace(/"/g, '""')}"`,
+                    `"${(r.deviceInfo || '').replace(/"/g, '""')}"`
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `CEFR_Shalgalt_Ur_Dun_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            showToast('Excel (CSV) файл амжилттай татагдлаа.', 'success');
+        }
+    </script>
+</body>
+</html>
